@@ -81,29 +81,7 @@ Lista todos os livros.
 ### POST /books/add
 Adiciona um novo livro.
 
-**Body**
-```json
-{
-  "title": "Livro teste",
-  "author": "Vitest",
-  "pages": 100,
-  "quantity": 2
-}
-```
-
-**Response**
-```json
-{
-  "result": {
-    "id": "id",
-    "title": "Livro teste",
-    "author": "Vitest",
-    "pages": 100,
-    "quantity": 2,
-    "created_at": "datetime"
-  }
-}
-```
+![Exemplo de requisição para adicionar livro](./img/addBook.gif)
 
 
 ### PATCH /books/:id

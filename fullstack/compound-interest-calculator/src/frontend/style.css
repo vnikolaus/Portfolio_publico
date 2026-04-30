@@ -1,0 +1,307 @@
+/* Reset e fonte */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    background: linear-gradient(to bottom right, #D9E2EC, #BCCCDC);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #bbb5b5;
+    opacity: 1;
+}
+
+/* Barra superior */
+#titlebar {
+    width: 100%;
+    height: 32px;
+    background-color: #3A506B;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    -webkit-app-region: drag;
+    padding: 0 6px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+.titlebar-buttons {
+    display: flex;
+    gap: 4px;
+    -webkit-app-region: no-drag;
+}
+
+.titlebar-button {
+    width: 40px;
+    height: 24px;
+    margin-top: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.titlebar-button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.titlebar-button.close:hover {
+    background-color: #e81123;
+    color: white;
+}
+
+/* Container principal com efeito glassmorphism */
+.container {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    padding-top: 30px;
+    width: 100%;
+    max-width: 1200px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    color: #374151;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #374151;
+}
+
+/* Linhas e colunas */
+.row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 250px;
+}
+
+.field label {
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #4B5563;
+}
+
+.field input {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    color: #374151;
+    outline: none;
+    font-size: 1em;
+    transition: background 0.2s ease;
+}
+
+.field input:focus {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.divider {
+    border: none;
+    height: 2px;
+    background-color: #7C98B3;
+    margin: 20px 0;
+    opacity: 0.7;
+}
+
+/* Botões */
+.button-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+button#calcular,
+button#restaurar {
+    background-color: #3A506B;
+    color: #fff;
+    padding: 15px 40px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+button#restaurar {
+    margin-left: 12px;
+    padding: 15px 30px;
+}
+
+button#calcular:hover,
+button#restaurar:hover {
+    background-color: #2D3E50;
+    transform: scale(1.02);
+}
+
+/* Gráfico */
+.chart-container {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 20px;
+    min-height: 300px;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+/* Botão de topo */
+.button-bottom {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+#btn-topo {
+    background-color: #3A506B;
+    color: white;
+    font-size: 1.4rem;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#btn-topo:hover {
+    background-color: #2D3E50;
+    transform: scale(1.05);
+}
+
+/* Mensagem de erro */
+#error-message {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #3A506B;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+    opacity: 0.95;
+    transition: opacity 0.3s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Input com select */
+.combo-input {
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+}
+
+.combo-input input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    color: #374151;
+    font-size: 1em;
+    outline: none;
+    height: 38px;
+}
+
+.combo-input select {
+    flex-shrink: 0;
+    width: 150px;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    color: #374151;
+    font-size: 1em;
+    outline: none;
+    border-left: 1px solid rgba(83, 107, 120, 0.3);
+    cursor: pointer;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%23374151' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px 16px;
+}
+
+.combo-input select:focus {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Total investido */
+#investido-total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #3A506B;
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Ícone de % nos inputs de taxa */
+#selic,
+#cdi,
+#ipca,
+#juro-prefixado,
+#juro-ipca,
+#cdb,
+#lci,
+#di,
+#poupanca {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='18' width='18'><text x='0' y='16' font-size='18' font-weight='700' fill='gray'>%</text></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+}

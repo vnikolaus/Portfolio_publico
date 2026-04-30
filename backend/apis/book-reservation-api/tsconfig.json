@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    /* Diretórios */
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    /* Ambiente */
+    "target": "esnext",                  
+    "module": "NodeNext",                
+    "moduleResolution": "NodeNext",      
+    "esModuleInterop": true,             
+    "resolveJsonModule": true,           
+    "types": [],                   
+    // "types": ["node"],                   
+
+    /* Tipagem */
+    "strict": true,                      
+    "noImplicitReturns": true,           
+    "noUnusedLocals": true,              
+    "noUnusedParameters": false,         
+    "exactOptionalPropertyTypes": true,  
+
+    /* Output */
+    "sourceMap": true,                   
+    "declaration": true,                 
+    "declarationMap": true,              
+
+    /* Outros */
+    "skipLibCheck": true                 
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

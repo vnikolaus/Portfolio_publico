@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="renderer.js"></script>
+</head>
+
+<body>
+    <div id="titlebar">
+        <div class="titlebar-buttons">
+            <div class="titlebar-button" onclick="window.electronAPI.minimizeWindow()">─</div>
+            <div class="titlebar-button close" onclick="window.electronAPI.closeWindow()">✕</div>
+        </div>
+    </div>
+    <div class="container">
+        <h3>Calculadora - Juros Compostos</h3>
+
+        <div class="row">
+            <div class="field">
+                <label for="investimento-inicial">Investimento Inicial</label>
+                <input type="text" id="investimento-inicial" placeholder="R$ 0,00" onkeyup="Utils.maskValue(this)"
+                    maxlength="18" />
+            </div>
+            <div class="field">
+                <label for="aporte-mensal">Aporte Mensal</label>
+                <input type="text" id="aporte-mensal" placeholder="R$ 0,00" onkeyup="Utils.maskValue(this)"
+                    maxlength="16" />
+            </div>
+            <div class="field">
+                <label for="periodo">Período da Aplicação (meses)</label>
+                <input type="text" id="periodo" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="Ex: 12" onkeyup="Utils.maskNumber(this)">
+            </div>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="row">
+            <div class="field">
+                <label for="selic">Selic Efetiva (a.a.)</label>
+                <input type="text" id="selic" placeholder="Ex: 10,75" onkeyup="Utils.maskValue(this)" maxlength="5" />
+            </div>
+
+            <div class="field">
+                <label for="cdi">CDI (a.a.)</label>
+                <input type="text" id="cdi" placeholder="Ex: 10,65" onkeyup="Utils.maskValue(this)" maxlength="5" />
+            </div>
+            <div class="field">
+                <label for="ipca">IPCA (a.a.)</label>
+                <input type="text" id="ipca" placeholder="Ex: 4,50" onkeyup="Utils.maskValue(this)" maxlength="5" />
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 2%;">
+            <div class="field">
+                <label for="juro-prefixado">Juro Nominal Tesouro Prefixado (a.a.)</label>
+                <input type="text" id="juro-prefixado" placeholder="Ex: 11.00" onkeyup="Utils.maskValue(this)"
+                    maxlength="5" />
+            </div>
+
+            <div class="field">
+                <label for="juro-ipca">Juro Real Tesouro IPCA+ (a.a.)</label>
+                <input type="text" id="juro-ipca" placeholder="Ex: 5.30" onkeyup="Utils.maskValue(this)"
+                    maxlength="5" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field field-inline">
+                <label for="cdb">Rentabilidade CDB</label>
+                <div class="combo-input">
+                    <input type="text" id="cdb" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="Ex: 100,00" onkeyup="Utils.maskValue(this)">
+                    <select id="cdb-base">
+                        <option value="cdi">% do CDI</option>
+                        <option value="ipca">IPCA+ (a.a.)</option>
+                        <option value="prefixado">Préfixado (a.a.)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="di">Rentabilidade do Fundo DI (% do CDI)</label>
+                <input type="text" id="di" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="Ex: 98,50" onkeyup="Utils.maskValue(this)">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field field-inline">
+                <label for="lci">Rentabilidade LCI / LCA</label>
+                <div class="combo-input">
+                    <input type="text" id="lci" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="Ex: 85,00" onkeyup="Utils.maskValue(this)">
+                    <select id="lci-base">
+                        <option value="cdi">% do CDI</option>
+                        <option value="ipca">IPCA+ (a.a.)</option>
+                        <option value="prefixado">Préfixado (a.a.)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="poupanca">Rentabilidade da Poupança (a.m.)</label>
+                <input type="text" id="poupanca" placeholder="Ex: 0,6770" onkeyup="Utils.maskPoupanca(this)" maxlength="7" />
+            </div>
+        </div>
+
+        <div class="button-row">
+            <button id="calcular">Calcular</button>
+            <button id="restaurar" title="Restaurar campos">Restaurar parâmetros</button>
+        </div>
+
+        <div id="investido-total">
+            Total investido: <span id="valor-investido">0,00</span>
+        </div>
+
+        <div class="chart-container" hidden>
+            <canvas id="grafico-rendimento"></canvas>
+        </div>
+
+        <!-- <div class="row button-bottom">
+            <button id="btn-topo" title="Voltar ao topo" hidden>↑</button>
+        </div> -->
+    </div>
+
+    <div id="error-message" class="hidden"></div>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Book {
+  id           Int           @id @default(autoincrement())
+  title        String
+  author       String
+  pages        Int
+  quantity     Int
+  created_at   DateTime      @default(now())
+  reservations Reservation[]
+
+  @@unique([title, author])
+}
+
+model Reservation {
+  id         String   @id @default(cuid())
+  book_id    Int
+  duration   Int
+  start_date DateTime
+  end_date   DateTime
+  status     ReservationStatus
+  book       Book     @relation(fields: [book_id], references: [id], onDelete: Cascade)
+}
+
+enum ReservationStatus {
+  PENDING
+  ACTIVE
+  FINISHED
+  CANCELLED
+}

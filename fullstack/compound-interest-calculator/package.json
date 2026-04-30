@@ -1,0 +1,17 @@
+{
+  "name": "electronjs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "electron src/."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "chart.js": "^4.5.0",
+    "electron": "^36.4.0"
+  }
+}

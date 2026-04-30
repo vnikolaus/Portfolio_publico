@@ -18,10 +18,8 @@
     "node",
     "typescript",
     "api",
-    "fastify",
-    "prisma",
-    "vitest",
-    "docker"
+    "express",
+    "crypto"
   ],
   "dependencies": {
     "@prisma/client": "^6.16.2",

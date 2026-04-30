@@ -7,6 +7,7 @@ const CronPlugin = fp(async fastify => {
         const nowISO = Utils.toBrazilISO(new Date());
         const now    = new Date(nowISO);
 
+        // Atualiza reservas pendentes que já começaram
         await fastify.prisma.reservation.updateMany({
             where: {
                 status: 'PENDING',
@@ -15,6 +16,7 @@ const CronPlugin = fp(async fastify => {
             data: { status: 'ACTIVE' }
         });
 
+        // Atualiza reservas ativas que já terminaram
         await fastify.prisma.reservation.updateMany({
             where: {
                 status: 'ACTIVE',

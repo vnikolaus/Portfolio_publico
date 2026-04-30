@@ -6,7 +6,7 @@ const router = Router();
 
 app.use(express.text());
 app.use(express.json());
-app.use('/', router);
+app.use('/', router); // conecta o router no app
 
 const controller = new Controller(router);
 controller.start();

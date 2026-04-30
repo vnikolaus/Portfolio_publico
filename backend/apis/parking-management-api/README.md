@@ -23,13 +23,6 @@ zod
 vitest
 ```
 
-## 🔹 Funcionalidades
-
-- Registrar entrada de veículos (`/car/checkin`)
-- Registrar saída de veículos com cálculo automático de tarifa (`/car/checkout`)
-- Listar veículos e status do estacionamento (`/car/list`)
-- Healthcheck (`/ping`)
-
 
 ## 💻 Endpoints
 

@@ -10,8 +10,7 @@
     "moduleResolution": "NodeNext",      
     "esModuleInterop": true,             
     "resolveJsonModule": true,           
-    "types": [],                   
-    // "types": ["node"],                   
+    "types": ["node"],                   
 
     /* Tipagem */
     "strict": true,                      

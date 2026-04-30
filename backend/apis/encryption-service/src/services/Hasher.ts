@@ -12,7 +12,7 @@ export class Hasher {
 
     static encryptAES(value: string, key: string) {
         const key32bytes = createHash(HASH_ALGO_1).update(key).digest();
-        const iv         = randomBytes(12);
+        const iv         = randomBytes(12); // GCM utiliza 12 bytes
         const cipher     = createCipheriv(AES_ALGO, Buffer.from(key32bytes), iv);
 
         const encrypted = Buffer.concat([cipher.update(value, "utf8"), cipher.final()]);

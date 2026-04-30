@@ -1,0 +1,31 @@
+###
+
+POST http://localhost:3000/products
+Content-Type: application/json
+
+  {
+    "name": "Caneca Personalizada",
+    "description": "Caneca de cerâmica com estampa divertida",
+    "sku": "SKU-CAN-003",
+    "price": 1599,
+    "stock": 50,
+    "category": "Acessórios"
+  }
+
+###
+
+GET http://localhost:3000/products
+
+###
+
+POST http://localhost:3000/cart/items
+Content-Type: application/json
+
+{
+    "items": [
+        {
+            "product_id": 39,
+            "quantity": 5
+        }
+    ]
+}

@@ -52,11 +52,16 @@ export class ReservationController {
             path: ['end_date'],
         });
 
-        const zValues = schema.parse(values) as Prisma.ReservationUncheckedUpdateInput;
-        const updatedReservation = await this.app.prisma.reservation.update({ 
-            where: { id }, 
-            data: { ...zValues } 
-        })
+        const zValues = schema.parse(values);
+        const data: Prisma.ReservationUncheckedUpdateInput = { ...zValues } as Prisma.ReservationUncheckedUpdateInput;
+
+        if (zValues.start_date) data.start_date = new Date(zValues.start_date);
+        if (zValues.end_date) data.end_date = new Date(zValues.end_date);
+
+        const updatedReservation = await this.app.prisma.reservation.update({
+            where: { id },
+            data
+        });
         return updatedReservation;
     }
 }

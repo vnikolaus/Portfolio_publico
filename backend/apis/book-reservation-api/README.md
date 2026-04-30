@@ -145,15 +145,15 @@ http://localhost:3000
 
 #### Adicionar Reserva
 
-GIF pendente: `./img/addReservation.gif`
+![Exemplo de cadastro de reserva](./img/addReservation.gif)
 
 #### Atualizar Reserva
 
-GIF pendente: `./img/updateReservation.gif`
+![Exemplo de atualização de reserva](./img/updateReservation.gif)
 
 #### Remover Reserva
 
-GIF pendente: `./img/deleteReservation.gif`
+![Exemplo de remoção de reserva](./img/deleteReservation.gif)
 
 ---
 
@@ -172,7 +172,7 @@ GIF pendente: `./img/deleteReservation.gif`
 - A reserva só pode ser criada para um livro existente.
 - `start_date` e `end_date` precisam ser datas válidas.
 - `end_date` não pode ser menor que `start_date`.
-- O status inicial aceito no cadastro e `PENDING`.
+- O status inicial aceito no cadastro é `PENDING`.
 - Se o período da reserva já estiver ativo, a API pode salvar a reserva como `ACTIVE`.
 - O limite de reservas no mesmo período respeita a quantidade disponível do livro.
 

@@ -1,0 +1,18 @@
+{
+  "collection_name": "parking",
+  "created_at": "2026-04-30T00:00:00.000Z",
+  "last_interaction": "2026-04-30T00:00:00.000Z",
+  "data": [
+    {
+      "id": "example-id",
+      "plate": "ABC1234",
+      "parked": false,
+      "info": {
+        "checkin": 1758120137983,
+        "checkout": 1758123737983,
+        "total": 12
+      },
+      "_zid": 1
+    }
+  ]
+}

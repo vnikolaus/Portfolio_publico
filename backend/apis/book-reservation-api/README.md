@@ -1,224 +1,249 @@
-# 📚 API - Reserva de livros
+# API - Reserva de Livros
 
-API responsável pelo gerenciamento de **livros** e **reservas**, construída com **Fastify**, **Prisma** e **PostgreSQL**.  
-Inclui agendamento automático de atualização de status via **cron jobs**.
+API para gerenciamento de livros e reservas, desenvolvida com Node.js, TypeScript, Fastify, Prisma e PostgreSQL.
+
+O projeto cobre o fluxo principal de cadastro de livros, criacao de reservas, controle de disponibilidade por periodo e atualizacao automatica do status das reservas por cron job.
 
 ---
 
-## ⚡ Instalação Rápida
+## Visao Geral
+
+| Item | Descricao |
+| --- | --- |
+| Runtime | Node.js |
+| Linguagem | TypeScript |
+| Framework | Fastify |
+| ORM | Prisma |
+| Banco de dados | PostgreSQL |
+| Validacao | Zod |
+| Testes | Vitest |
+| Agendamentos | node-cron |
+
+---
+
+## Funcionalidades
+
+- Cadastro, listagem, edicao e remocao de livros.
+- Criacao e gerenciamento de reservas.
+- Controle de limite de reservas por quantidade disponivel do livro.
+- Atualizacao automatica de reservas `PENDING` para `ACTIVE`.
+- Atualizacao automatica de reservas `ACTIVE` para `FINISHED`.
+- Validacao dos dados de entrada com Zod.
+- Persistencia com Prisma e PostgreSQL.
+
+---
+
+## Como Rodar
+
+### 1. Instale as dependencias
 
 ```bash
-git clone <repo-url>
-cd <nome-da-api>
-
-# criar o arquivo .env com as credenciais do banco
-
-# subir o banco
-docker-compose up -d
-
-# instalar dependências da API
 npm install
-# e descomente "types": ["node"] no tsconfig ou instale @types/node
+```
 
-# rodar em dev
+### 2. Configure o ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```env
+PORT="3000"
+
+DATABASE_URL="postgresql://admindocker:admindocker@localhost:5432/db_book_reservation?schema=public"
+
+POSTGRES_USER=admindocker
+POSTGRES_PASSWORD=admindocker
+POSTGRES_DB=db_book_reservation
+```
+
+### 3. Suba o banco com Docker
+
+```bash
+docker-compose up -d
+```
+
+### 4. Rode as migrations
+
+```bash
+npx prisma migrate dev
+```
+
+### 5. Inicie a API
+
+```bash
 npm run dev
 ```
 
----
+Por padrao, a API fica disponivel em:
 
-## 📋 Dependências
-
-```
-nodejs
-typescript
-fastify
-zod
-prisma
-@prisma/client
-vitest
-node-cron
-```
-
-Banco de dados:  
-- **PostgreSQL** (conectado via Prisma ORM)
-
----
-
-## 💻 Endpoints
-
-### GET /ping
-Healthcheck da API.
-
-**Response**
-```
-pong
+```text
+http://localhost:3000
 ```
 
 ---
 
-### 📘 Livros
+## Scripts
 
-### GET /books
-Lista todos os livros.
-
-**Response**
-```json
-{
-  "result": [
-    {
-      "id": 1,
-      "title": "Livro teste",
-      "author": "Vitest",
-      "pages": 100,
-      "quantity": 2,
-      "created_at": "2025-09-17T12:00:00Z",
-      "reservations": []
-    }
-  ]
-}
-```
-
-### POST /books/add
-Adiciona um novo livro.
-
-![Exemplo de requisição para adicionar livro](./img/addBook.gif)
-
-
-### PATCH /books/:id
-Atualiza os dados de um livro.
-
-**Body**
-```json
-{
-  "pages": 150,
-  "quantity": 5
-}
-```
-
-**Response**
-```json
-{
-  "result": {
-    "id": "id",
-    "title": "Livro teste",
-    "author": "Vitest",
-    "pages": 150,
-    "quantity": 5,
-    "created_at": "datetime"
-  }
-}
-```
-
-### DELETE /books/:id
-Remove um livro.  
-**Response:** HTTP 204 (No Content)
+| Comando | Descricao |
+| --- | --- |
+| `npm run dev` | Inicia a API em modo desenvolvimento |
+| `npm run build` | Compila o projeto TypeScript |
+| `npm start` | Executa a versao compilada |
+| `npm run lint` | Executa o ESLint com correcao automatica |
+| `npm run test` | Executa os testes |
+| `npm run test:watch` | Executa os testes em modo watch |
 
 ---
 
-### 📖 Reservas
+## Endpoints
 
-### POST /reservations/add
-Cria uma nova reserva de livro.
+### Healthcheck
 
-**Body**
-```json
-{
-  "book_id": 40,
-  "duration": 7,
-  "status": "PENDING",
-  "start_date": "2025-09-17",
-  "end_date": "2025-09-24"
-}
-```
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| `GET` | `/ping` | Verifica se a API esta online |
 
-**Response**
-```json
-{
-  "result": {
-    "id": "cuid",
-    "book_id": 40,
-    "duration": 7,
-    "start_date": "2025-09-17T00:00:00.000Z", // Datetime
-    "end_date": "2025-09-24T00:00:00.000Z",   // Datetime
-    "status": "ACTIVE | PENDING"
-  }
-}
-```
+### Livros
 
-### PATCH /reservations/:id
-Atualiza uma reserva existente.
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| `GET` | `/books` | Lista todos os livros |
+| `POST` | `/books/add` | Cadastra um novo livro |
+| `PATCH` | `/books/:id` | Atualiza os dados de um livro |
+| `DELETE` | `/books/:id` | Remove um livro |
 
-**Body**
-```json
-{
-  "duration": 10,
-  "status": "CANCELLED"
-}
-```
+### Reservas
 
-**Response**
-```json
-{
-  "result": {
-    "id": "cuid",
-    "book_id": 40,
-    "duration": 10,
-    "start_date": "2025-09-17T00:00:00.000Z", // Datetime
-    "end_date": "2025-09-24T00:00:00.000Z",   // Datetime
-    "status": "CANCELLED"
-  }
-}
-```
-
-### DELETE /reservations/:id
-Remove uma reserva.  
-**Response:** HTTP 204 (No Content)
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| `POST` | `/reservations/add` | Cria uma nova reserva |
+| `PATCH` | `/reservations/:id` | Atualiza uma reserva existente |
+| `DELETE` | `/reservations/:id` | Remove uma reserva |
 
 ---
 
-## ⏱️ Agendamentos (Cron Jobs)
+## Exemplos Visuais
 
-A cada **10 minutos**, a API executa verificações automáticas:
+### Livros
 
-- Reservas com status **PENDING** cujo `start_date` já passou → são atualizadas para **ACTIVE**.  
-- Reservas com status **ACTIVE** cujo `end_date` já passou → são atualizadas para **FINISHED**.
+#### Listar Livros
 
-Log de execução:  
-```
+![Exemplo de listagem de livros](./img/getBooks.gif)
+
+#### Adicionar Livro
+
+![Exemplo de cadastro de livro](./img/addBook.gif)
+
+#### Atualizar Livro
+
+![Exemplo de atualizacao de livro](./img/updateBook.gif)
+
+#### Remover Livro
+
+![Exemplo de remocao de livro](./img/deleteBook.gif)
+
+### Reservas
+
+#### Adicionar Reserva
+
+GIF pendente: `./img/addReservation.gif`
+
+#### Atualizar Reserva
+
+GIF pendente: `./img/updateReservation.gif`
+
+#### Remover Reserva
+
+GIF pendente: `./img/deleteReservation.gif`
+
+---
+
+## Regras de Negocio
+
+### Livros
+
+- `title` e `author` sao obrigatorios.
+- `title` e `author` formam uma combinacao unica.
+- `pages` deve ser maior que zero.
+- `quantity` nao pode ser negativa.
+
+### Reservas
+
+- Uma reserva sempre pertence a um livro.
+- A reserva so pode ser criada para um livro existente.
+- `start_date` e `end_date` precisam ser datas validas.
+- `end_date` nao pode ser menor que `start_date`.
+- O status inicial aceito no cadastro e `PENDING`.
+- Se o periodo da reserva ja estiver ativo, a API pode salvar a reserva como `ACTIVE`.
+- O limite de reservas no mesmo periodo respeita a quantidade disponivel do livro.
+
+---
+
+## Status das Reservas
+
+| Status | Descricao |
+| --- | --- |
+| `PENDING` | Reserva criada para um periodo futuro |
+| `ACTIVE` | Reserva dentro do periodo atual |
+| `FINISHED` | Reserva com periodo encerrado |
+| `CANCELLED` | Reserva cancelada |
+
+---
+
+## Agendamentos
+
+A cada 10 minutos, a API executa uma rotina automatica para manter os status das reservas atualizados.
+
+| Condicao | Acao |
+| --- | --- |
+| Reserva `PENDING` com `start_date` ja iniciado | Atualiza para `ACTIVE` |
+| Reserva `ACTIVE` com `end_date` encerrado | Atualiza para `FINISHED` |
+
+Log esperado:
+
+```text
 [Job] Status das reservas atualizado
 ```
 
 ---
 
-## ⚙️ Testes Automatizados
+## Banco de Dados
 
+O banco utilizado e PostgreSQL, executado via Docker Compose.
+
+Para visualizar os dados com Prisma Studio:
+
+```bash
+npx prisma studio
 ```
-✅ /ping - Healthcheck
-✅ /books - Listagem, adição, atualização e remoção
-✅ /reservations - Criação, atualização e remoção
+
+Endereco padrao:
+
+```text
+http://localhost:5555
 ```
 
 ---
 
-## 🛠️ Construído com
+## Estrutura
 
-* [NodeJS](https://nodejs.org/en)
-* [TypeScript](https://www.typescriptlang.org/)
-* [Fastify](https://fastify.dev/)
-* [Prisma](https://www.prisma.io/)
-* [PostgreSQL](https://www.postgresql.org/)
-* [Zod](https://zod.dev/)
-* [Vitest](https://vitest.dev/)
-* [node-cron](https://www.npmjs.com/package/node-cron)
+```text
+src/
+  app/
+    controllers/
+    routes/
+    useCases/
+    utils/
+  infra/
+    plugins/
+prisma/
+  migrations/
+  schema.prisma
+tests/
+  e2e/
+```
 
 ---
 
-## 📌 Versão
+## Autor
 
-V1.0.0
-
----
-
-## ✒️ Autor
-
-* **Victor Nikolaus** - *Desenvolvimento & Documentação* - [GitHub](https://github.com/vnikolaus)
+Victor Nikolaus

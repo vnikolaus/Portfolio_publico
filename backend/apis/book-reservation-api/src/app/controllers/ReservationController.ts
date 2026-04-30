@@ -7,19 +7,22 @@ export class ReservationController {
     constructor(private readonly app: FastifyInstance) {}
 
     async addReservation(input: Prisma.ReservationUncheckedCreateInput) {
-
+        const dateSchema = z.string().min(1).refine(value => !Number.isNaN(new Date(value).getTime()), {
+            message: 'Invalid date',
+        });
         const schema = z.object({
             duration:   z.number().min(0),
             book_id:    z.number().min(0),
             status:     z.enum(['PENDING']),
-            start_date: z.string().min(1),
-            end_date:   z.string().min(1),
+            start_date: dateSchema,
+            end_date:   dateSchema,
+        }).refine(({ start_date, end_date }) => new Date(end_date) >= new Date(start_date), {
+            message: 'end_date must be greater than or equal to start_date',
+            path: ['end_date'], // erro aparece na propriedade end_date
         })
         const zInput = schema.parse(input);
-
         const build  = new BuildReservation(this.app);
         const dto    = await build.exec(zInput);
-
         return dto;
     }
 
@@ -32,13 +35,23 @@ export class ReservationController {
     async updateReservation(id: string, values: Prisma.ReservationUncheckedUpdateInput) {
         if (typeof id !== 'string') return;
 
+        const dateSchema = z.string().min(1).refine(value => !Number.isNaN(new Date(value).getTime()), {
+            message: 'Invalid date',
+        });
         const schema = z.object({
             book_id:    z.number().optional(),
             duration:   z.number().optional(),
-            start_date: z.string().optional(),
-            end_date:   z.string().optional(),
-            status:     z.string().optional(),
+            start_date: dateSchema.optional(),
+            end_date:   dateSchema.optional(),
+            status:     z.enum(['PENDING', 'ACTIVE', 'FINISHED', 'CANCELLED']).optional(),
+        }).refine(({ start_date, end_date }) => {
+            if (!start_date || !end_date) return true;
+            return new Date(end_date) >= new Date(start_date);
+        }, {
+            message: 'end_date must be greater than or equal to start_date',
+            path: ['end_date'],
         });
+
         const zValues = schema.parse(values) as Prisma.ReservationUncheckedUpdateInput;
         const updatedReservation = await this.app.prisma.reservation.update({ 
             where: { id }, 

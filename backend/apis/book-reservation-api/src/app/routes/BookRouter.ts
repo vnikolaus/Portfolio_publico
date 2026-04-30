@@ -41,7 +41,7 @@ export function BookRouter(app: FastifyInstance, options: any) {
             const { id } = req.params as { id: string };
             await bookController.deleteBook(id);
 
-            res.status(204);
+            res.status(204).send();
         } catch (err) {
             res.status(400).send({ error: (err as Error).message });
         }

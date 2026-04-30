@@ -32,7 +32,7 @@ export function ReservationRouter(app: FastifyInstance, options: any) {
             const { id } = req.params as { id: string };
             await reservationController.deleteReservation(id);
 
-            res.status(204);
+            res.status(204).send();
         } catch (err) {
             res.status(400).send({ error: (err as Error).message });
         }

@@ -10,11 +10,11 @@ export class BookController {
         const schema = z.object({
             title:    z.string().min(1),
             author:   z.string().min(1),
-            pages:    z.number().min(0),
+            pages:    z.number().min(1),
             quantity: z.number().min(0),
         })
         const zBook   = schema.parse(book);
-        const newBook = await this.app.prisma.book.create({ data: { ...zBook, created_at: Utils.toBrazilISO(new Date()) } });
+        const newBook = await this.app.prisma.book.create({ data: { ...zBook, created_at: Utils.now() } });
         return newBook;
     }
 
@@ -30,8 +30,8 @@ export class BookController {
         const schema = z.object({
             title:    z.string().optional(),
             author:   z.string().optional(),
-            pages:    z.number().optional(),
-            quantity: z.number().optional(),
+            pages:    z.number().min(1).optional(),
+            quantity: z.number().min(0).optional(),
         });
         const zValues = schema.parse(values) as Prisma.BookUpdateInput;
         const updatedBook = await this.app.prisma.book.update({ 

@@ -4,8 +4,7 @@ import { Utils } from '../../app/utils/Utils.js';
 
 const CronPlugin = fp(async fastify => {
     schedule('*/10 * * * *', async () => {
-        const nowISO = Utils.toBrazilISO(new Date());
-        const now    = new Date(nowISO);
+        const now = Utils.now();
 
         // Atualiza reservas pendentes que já começaram
         await fastify.prisma.reservation.updateMany({

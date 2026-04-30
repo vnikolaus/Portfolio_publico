@@ -27,11 +27,12 @@ export class BuildReservation {
             }
         });
 
+        if (!dbBook) throw new Error('Book not found');
+
         const reservations = dbBook?.reservations?.length ?? 0;
         if (reservations === (dbBook?.quantity ?? 0)) throw new Error('Reservation limit for the period reached');
 
-        const nowISO       = Utils.toBrazilISO(new Date());
-        const now          = new Date(nowISO);
+        const now          = Utils.now();
         const activePeriod = (now >= startDate && now <= endDate);
 
         const dto: Prisma.ReservationCreateInput = {

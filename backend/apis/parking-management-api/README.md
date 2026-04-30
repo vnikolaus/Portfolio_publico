@@ -1,47 +1,115 @@
-# 🚗 API de Estacionamento
+# API - Estacionamento
 
-API para controle de check-in e check-out de veículos em um estacionamento, com cálculo automático do valor a pagar e persistência em banco de dados próprio (**KlauzDB**).
+API para controle de check-in e check-out de veículos em um estacionamento, com cálculo automático do valor a pagar e persistência em KlauzDB.
 
-## ⚡ Instalação Rápida
-
-```bash
-git clone <repo-url>
-cd <nome-da-api>
-
-npm install
-# e descomente "types": ["node"] no tsconfig ou instale @types/node
-npm run dev
-```
-
-## 📋 Dependências
-
-```
-nodejs
-typescript
-express
-zod
-vitest
-```
-
-
-## 💻 Endpoints
-
-### `GET /ping`
-Verifica se a API está no ar.
+O projeto cobre o fluxo principal de entrada de veículos, saída com cálculo de tarifa, listagem de registros e armazenamento em collections JSON.
 
 ---
 
-### `POST /car/checkin`
-Registra a entrada de um carro.
+## Visão Geral
 
-**Body**
+| Item | Descrição |
+| --- | --- |
+| Runtime | Node.js |
+| Linguagem | TypeScript |
+| Framework | Express |
+| Banco de dados | KlauzDB |
+| Validação | Zod |
+| Testes | Vitest |
+| Lint | ESLint |
+
+---
+
+## Funcionalidades
+
+- Healthcheck da API.
+- Check-in de veículos por placa.
+- Bloqueio de check-in duplicado para veículo já estacionado.
+- Check-out de veículos estacionados.
+- Cálculo automático do valor a pagar.
+- Listagem de registros do estacionamento.
+- Validação e normalização de placas.
+- Persistência em collection JSON com KlauzDB.
+
+---
+
+## Como Rodar
+
+### 1. Instale as dependências
+
+```bash
+npm install
+```
+
+### 2. Configure o ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```env
+PORT=3000
+```
+
+### 3. Inicie a API
+
+```bash
+npm run dev
+```
+
+Por padrão, caso `PORT` não seja informado, a API usa:
+
+```text
+http://localhost:3001
+```
+
+---
+
+## Scripts
+
+| Comando | Descrição |
+| --- | --- |
+| `npm run dev` | Inicia a API em modo desenvolvimento |
+| `npm run build` | Compila o projeto TypeScript |
+| `npm start` | Executa a versão compilada |
+| `npm run lint` | Executa o ESLint com correção automática |
+| `npm run test` | Executa os testes |
+| `npm run test:watch` | Executa os testes em modo watch |
+
+---
+
+## Endpoints
+
+### Healthcheck
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| `GET` | `/ping` | Verifica se a API está online |
+
+### Veículos
+
+| Método | Rota | Descrição |
+| --- | --- | --- |
+| `POST` | `/car/checkin` | Registra a entrada de um veículo |
+| `PATCH` | `/car/checkout` | Registra a saída de um veículo |
+| `GET` | `/car/list` | Lista os registros do estacionamento |
+
+---
+
+## Exemplos de Requisição
+
+### Check-in
+
+**POST** `/car/checkin`
+
+Body `application/json`:
+
 ```json
 {
   "plate": "ABC1234"
 }
 ```
 
-**Response**
+Resposta `201`:
+
 ```json
 {
   "result": {
@@ -56,19 +124,20 @@ Registra a entrada de um carro.
 }
 ```
 
----
+### Check-out
 
-### `PATCH /car/checkout`
-Registra a saída de um carro e calcula o valor a pagar.
+**PATCH** `/car/checkout`
 
-**Body**
+Body `application/json`:
+
 ```json
 {
   "plate": "ABC1234"
 }
 ```
 
-**Response**
+Resposta `200`:
+
 ```json
 {
   "result": {
@@ -77,30 +146,30 @@ Registra a saída de um carro e calcula o valor a pagar.
     "parked": false,
     "info": {
       "checkin": 1758120137983,
-      "checkout": 1758120137992,
-      "total": 15
+      "checkout": 1758123737983,
+      "total": 12
     }
   }
 }
 ```
 
----
+### Listar Veículos
 
-### `GET /car/list`
-Lista todos os veículos no estacionamento.
+**GET** `/car/list`
 
-**Response**
+Resposta `200`:
+
 ```json
 {
   "result": [
     {
-      "id": "3ad841e0-32b4-47b7-a458-3728788ca2eb",
+      "id": "uuid",
       "plate": "ABC1234",
       "parked": false,
       "info": {
         "checkin": 1758120137983,
-        "checkout": 1758120137992,
-        "total": 15
+        "checkout": 1758123737983,
+        "total": 12
       }
     }
   ]
@@ -109,78 +178,83 @@ Lista todos os veículos no estacionamento.
 
 ---
 
-## 🔹 Regras de Tarifação
+## Exemplos Visuais
 
-- Até **15 minutos** → gratuito.
-- Até **1 hora** → R$ 12,00.
-- Até **2 horas** → R$ 15,00.
-- Após 2h → acréscimo de **R$ 3,00 por hora adicional**.
+### Check-in
+
+![Exemplo de check-in de veículo](./img/checkinCar.gif)
+
+### Check-out
+
+![Exemplo de check-out de veículo](./img/checkoutCar.gif)
+
+### Listar Veículos
+
+![Exemplo de listagem de veículos](./img/listCars.gif)
 
 ---
 
-## 🔹 Persistência dos Dados (KlauzDB)
+## Regras e Validações
 
-A API utiliza um banco de dados autoral chamado **KlauzDB**, que persiste as informações em arquivos JSON.  
-Cada coleção possui metadados de criação, última interação e os registros salvos.
+### Placas
 
-**Exemplo de persistência:**
-```json
-{
-  "collection_name": "parking",
-  "created_at": "2025-09-17T03:35:47.094Z",
-  "last_interaction": "2025-09-17T14:57:50.774Z",
-  "data": [
-    {
-      "id": "3ad841e0-32b4-47b7-a458-3728788ca2eb",
-      "plate": "ABC1234",
-      "parked": false,
-      "info": {
-        "checkin": 1758120137983,
-        "checkout": 1758120137992,
-        "total": 15
-      },
-      "_zid": 1
-    }
-  ]
-}
+- `plate` é obrigatório no check-in e no check-out.
+- A placa é normalizada para maiúscula.
+- Espaços e hífens são removidos antes da validação.
+- Formatos aceitos: `ABC1234` e `ABC1D23`.
+
+### Estacionamento
+
+- Um veículo não pode fazer check-in se já estiver estacionado.
+- Um veículo só pode fazer check-out se estiver estacionado.
+- O check-out define `parked` como `false`.
+- O campo `_zid` do KlauzDB não é exposto na listagem.
+
+### Tarifação
+
+- Até 15 minutos: gratuito.
+- Até 1 hora: R$ 12,00.
+- Após 1 hora: acréscimo de R$ 3,00 por hora adicional ou fração.
+
+---
+
+## Persistência
+
+A API utiliza KlauzDB, um banco de dados baseado em collections JSON.
+
+A collection runtime fica em:
+
+```text
+_collections/.parking.json
+```
+
+Esse arquivo é ignorado pelo Git. Um exemplo versionado fica em:
+
+```text
+_collections/.parking.example.json
 ```
 
 ---
 
-## ⚙️ Testes Automatizados (Vitest)
+## Estrutura
 
-- **Unitários** → cálculo de tarifas (`CalculatePrice`).
-- **E2E** → endpoints da API (`/checkin`, `/checkout`, `/list`).
-
-Exemplo de teste unitário:
-```ts
-it('Calculate 1:15h', async () => {
-    const _in   = Date.now();
-    const _out  = _in + (1 * 60 + 15) * 60 * 1000;
-    const total = calculatePrice.exec(_in, _out);
-    expect(total).toBe(15);
-})
+```text
+src/
+  _shared/
+  app/
+    controllers/
+    useCases/
+  infra/
+    database/
+tests/
+  e2e/
+  unit/
+_collections/
+img/
 ```
 
 ---
 
-## 🛠️ Construído com
+## Autor
 
-* [NodeJS](https://nodejs.org/en)
-* [TypeScript](https://www.typescriptlang.org/)
-* [ExpressJS](https://expressjs.com/pt-br/)
-* [Zod](https://zod.dev/)
-* [Vitest](https://vitest.dev/)
-
----
-
-## 📌 Versão
-
-V1.0.0
-
----
-
-## ✒️ Autores
-
-* **Victor Nikolaus** - *Desenvolvimento & Documentação* - [GitHub](https://github.com/vnikolaus)
-
+Victor Nikolaus

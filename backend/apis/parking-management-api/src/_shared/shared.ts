@@ -28,6 +28,22 @@ export type KzParkedCar = ParkedCar & {
     _zid: number
 }
 
+type KlauzError = {
+    error: string
+}
+
+function isKlauzError(value: unknown): value is KlauzError {
+    if (!value || typeof value !== 'object') return false;
+    const payload = value as Record<string, unknown>;
+    return typeof payload.error === 'string';
+}
+
+export function unwrapKlauzRows<T>(result: unknown): T[] {
+    if (isKlauzError(result)) throw new Error(result.error);
+    if (!Array.isArray(result)) return [];
+    return result as T[];
+}
+
 export const SHARED = Object.freeze({
     PATH_TO_COLLECTIONS: resolve(___dirname, '../../_collections'),
 })

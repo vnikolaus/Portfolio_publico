@@ -6,7 +6,7 @@ import { DB } from "./infra/database/DB.js";
 const app    = express();
 const router = Router({ caseSensitive: true });
 
-app.use(express.json());
+app.use(express.json({ limit: '16kb' }));
 app.use('/', router);
 
 const db         = new DB();

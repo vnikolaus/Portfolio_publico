@@ -1,0 +1,67 @@
+{
+    "name": "link-shortener",
+    "version": "1.0.0",
+    "description": "Encurtador de links usando NestJS + TypeScript",
+    "author": "Victor Nikolaus",
+    "license": "MIT",
+    "type": "commonjs",
+    "main": "dist/main.js",
+    "scripts": {
+        "build": "nest build",
+        "start": "node dist/main.js",
+        "start:dev": "nest start --watch",
+        "start:debug": "nest start --debug --watch",
+        "start:prod": "node dist/main.js",
+        "lint": "eslint . --fix",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:cov": "jest --coverage"
+    },
+    "keywords": [
+        "node",
+        "typescript",
+        "nestjs",
+        "api",
+        "links"
+    ],
+    "dependencies": {
+        "@nestjs/common": "^11.1.6",
+        "@nestjs/core": "^11.1.6",
+        "@nestjs/platform-express": "^11.1.6",
+        "reflect-metadata": "^0.2.2",
+        "rxjs": "^7.8.2"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.13.0",
+        "@nestjs/cli": "^11.0.10",
+        "@nestjs/schematics": "^11.0.7",
+        "@nestjs/testing": "^11.1.6",
+        "@types/jest": "^30.0.0",
+        "@types/node": "^22.7.5",
+        "@typescript-eslint/eslint-plugin": "^8.11.0",
+        "@typescript-eslint/parser": "^8.11.0",
+        "eslint": "^9.13.0",
+        "jest": "^30.0.5",
+        "source-map-support": "^0.5.21",
+        "ts-jest": "^29.4.0",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.6.3"
+    },
+    "jest": {
+        "moduleFileExtensions": [
+            "js",
+            "json",
+            "ts"
+        ],
+        "rootDir": "src",
+        "testRegex": ".*\\.spec\\.ts$",
+        "transform": {
+            "^.+\\.(t|j)s$": "ts-jest"
+        },
+        "collectCoverageFrom": [
+            "**/*.(t|j)s"
+        ],
+        "coverageDirectory": "../coverage",
+        "testEnvironment": "node"
+    }
+}

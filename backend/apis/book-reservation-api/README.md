@@ -2,20 +2,20 @@
 
 API para gerenciamento de livros e reservas, desenvolvida com Node.js, TypeScript, Fastify, Prisma e PostgreSQL.
 
-O projeto cobre o fluxo principal de cadastro de livros, criacao de reservas, controle de disponibilidade por periodo e atualizacao automatica do status das reservas por cron job.
+O projeto cobre o fluxo principal de cadastro de livros, criação de reservas, controle de disponibilidade por período e atualização automática do status das reservas por cron job.
 
 ---
 
-## Visao Geral
+## Visão Geral
 
-| Item | Descricao |
+| Item | Descrição |
 | --- | --- |
 | Runtime | Node.js |
 | Linguagem | TypeScript |
 | Framework | Fastify |
 | ORM | Prisma |
 | Banco de dados | PostgreSQL |
-| Validacao | Zod |
+| Validação | Zod |
 | Testes | Vitest |
 | Agendamentos | node-cron |
 
@@ -23,19 +23,19 @@ O projeto cobre o fluxo principal de cadastro de livros, criacao de reservas, co
 
 ## Funcionalidades
 
-- Cadastro, listagem, edicao e remocao de livros.
-- Criacao e gerenciamento de reservas.
-- Controle de limite de reservas por quantidade disponivel do livro.
-- Atualizacao automatica de reservas `PENDING` para `ACTIVE`.
-- Atualizacao automatica de reservas `ACTIVE` para `FINISHED`.
-- Validacao dos dados de entrada com Zod.
-- Persistencia com Prisma e PostgreSQL.
+- Cadastro, listagem, edição e remoção de livros.
+- Criação e gerenciamento de reservas.
+- Controle de limite de reservas por quantidade disponível do livro.
+- Atualização automática de reservas `PENDING` para `ACTIVE`.
+- Atualização automática de reservas `ACTIVE` para `FINISHED`.
+- Validação dos dados de entrada com Zod.
+- Persistência com Prisma e PostgreSQL.
 
 ---
 
 ## Como Rodar
 
-### 1. Instale as dependencias
+### 1. Instale as dependências
 
 ```bash
 npm install
@@ -46,13 +46,13 @@ npm install
 Crie um arquivo `.env` na raiz do projeto:
 
 ```env
-PORT="3000"
+PORT="SUA_PORTA"
 
-DATABASE_URL="postgresql://admindocker:admindocker@localhost:5432/db_book_reservation?schema=public"
+DATABASE_URL="SUA_DATABASE_URL"
 
-POSTGRES_USER=admindocker
-POSTGRES_PASSWORD=admindocker
-POSTGRES_DB=db_book_reservation
+POSTGRES_USER=SEU_USUARIO
+POSTGRES_PASSWORD=SUA_SENHA
+POSTGRES_DB=SEU_BANCO
 ```
 
 ### 3. Suba o banco com Docker
@@ -73,7 +73,7 @@ npx prisma migrate dev
 npm run dev
 ```
 
-Por padrao, a API fica disponivel em:
+Por padrão, a API fica disponível em:
 
 ```text
 http://localhost:3000
@@ -83,12 +83,12 @@ http://localhost:3000
 
 ## Scripts
 
-| Comando | Descricao |
+| Comando | Descrição |
 | --- | --- |
 | `npm run dev` | Inicia a API em modo desenvolvimento |
 | `npm run build` | Compila o projeto TypeScript |
-| `npm start` | Executa a versao compilada |
-| `npm run lint` | Executa o ESLint com correcao automatica |
+| `npm start` | Executa a versão compilada |
+| `npm run lint` | Executa o ESLint com correção automática |
 | `npm run test` | Executa os testes |
 | `npm run test:watch` | Executa os testes em modo watch |
 
@@ -98,13 +98,13 @@ http://localhost:3000
 
 ### Healthcheck
 
-| Metodo | Rota | Descricao |
+| Método | Rota | Descrição |
 | --- | --- | --- |
-| `GET` | `/ping` | Verifica se a API esta online |
+| `GET` | `/ping` | Verifica se a API está online |
 
 ### Livros
 
-| Metodo | Rota | Descricao |
+| Método | Rota | Descrição |
 | --- | --- | --- |
 | `GET` | `/books` | Lista todos os livros |
 | `POST` | `/books/add` | Cadastra um novo livro |
@@ -113,7 +113,7 @@ http://localhost:3000
 
 ### Reservas
 
-| Metodo | Rota | Descricao |
+| Método | Rota | Descrição |
 | --- | --- | --- |
 | `POST` | `/reservations/add` | Cria uma nova reserva |
 | `PATCH` | `/reservations/:id` | Atualiza uma reserva existente |
@@ -135,11 +135,11 @@ http://localhost:3000
 
 #### Atualizar Livro
 
-![Exemplo de atualizacao de livro](./img/updateBook.gif)
+![Exemplo de atualização de livro](./img/updateBook.gif)
 
 #### Remover Livro
 
-![Exemplo de remocao de livro](./img/deleteBook.gif)
+![Exemplo de remoção de livro](./img/deleteBook.gif)
 
 ### Reservas
 
@@ -157,45 +157,45 @@ GIF pendente: `./img/deleteReservation.gif`
 
 ---
 
-## Regras de Negocio
+## Regras de Negócio
 
 ### Livros
 
-- `title` e `author` sao obrigatorios.
-- `title` e `author` formam uma combinacao unica.
+- `title` e `author` são obrigatórios.
+- `title` e `author` formam uma combinação única.
 - `pages` deve ser maior que zero.
-- `quantity` nao pode ser negativa.
+- `quantity` não pode ser negativa.
 
 ### Reservas
 
 - Uma reserva sempre pertence a um livro.
-- A reserva so pode ser criada para um livro existente.
-- `start_date` e `end_date` precisam ser datas validas.
-- `end_date` nao pode ser menor que `start_date`.
+- A reserva só pode ser criada para um livro existente.
+- `start_date` e `end_date` precisam ser datas válidas.
+- `end_date` não pode ser menor que `start_date`.
 - O status inicial aceito no cadastro e `PENDING`.
-- Se o periodo da reserva ja estiver ativo, a API pode salvar a reserva como `ACTIVE`.
-- O limite de reservas no mesmo periodo respeita a quantidade disponivel do livro.
+- Se o período da reserva já estiver ativo, a API pode salvar a reserva como `ACTIVE`.
+- O limite de reservas no mesmo período respeita a quantidade disponível do livro.
 
 ---
 
 ## Status das Reservas
 
-| Status | Descricao |
+| Status | Descrição |
 | --- | --- |
-| `PENDING` | Reserva criada para um periodo futuro |
-| `ACTIVE` | Reserva dentro do periodo atual |
-| `FINISHED` | Reserva com periodo encerrado |
+| `PENDING` | Reserva criada para um período futuro |
+| `ACTIVE` | Reserva dentro do período atual |
+| `FINISHED` | Reserva com período encerrado |
 | `CANCELLED` | Reserva cancelada |
 
 ---
 
 ## Agendamentos
 
-A cada 10 minutos, a API executa uma rotina automatica para manter os status das reservas atualizados.
+A cada 10 minutos, a API executa uma rotina automática para manter os status das reservas atualizados.
 
-| Condicao | Acao |
+| Condição | Ação |
 | --- | --- |
-| Reserva `PENDING` com `start_date` ja iniciado | Atualiza para `ACTIVE` |
+| Reserva `PENDING` com `start_date` já iniciado | Atualiza para `ACTIVE` |
 | Reserva `ACTIVE` com `end_date` encerrado | Atualiza para `FINISHED` |
 
 Log esperado:
@@ -208,7 +208,7 @@ Log esperado:
 
 ## Banco de Dados
 
-O banco utilizado e PostgreSQL, executado via Docker Compose.
+O banco utilizado é PostgreSQL, executado via Docker Compose.
 
 Para visualizar os dados com Prisma Studio:
 
@@ -216,7 +216,7 @@ Para visualizar os dados com Prisma Studio:
 npx prisma studio
 ```
 
-Endereco padrao:
+Endereço padrão:
 
 ```text
 http://localhost:5555

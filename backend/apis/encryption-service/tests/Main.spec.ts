@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-const url = 'http://localhost:3000';
+const url = `http://localhost:3000`;
 
 describe('Testes - API Criptografia', () => {
     it('Should pong', async () => {
@@ -45,6 +45,7 @@ describe('Testes - API Criptografia', () => {
         expect(rawEnc?.result).toHaveProperty('encrypted');
         expect(rawEnc?.result).toHaveProperty('iv');
         expect(rawEnc?.result).toHaveProperty('tag');
+        expect(rawEnc?.result).toHaveProperty('salt');
 
         const { result } = rawEnc;
 
@@ -58,7 +59,7 @@ describe('Testes - API Criptografia', () => {
         });
         const rawDec  = await resDec.json();
 
-        expect(resDec.status).toBe(201);
+        expect(resDec.status).toBe(200);
         expect(rawDec).toHaveProperty('result');
         expect(rawDec.result).toBe(data);
     })

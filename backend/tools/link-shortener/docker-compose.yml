@@ -1,0 +1,19 @@
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: link_shortener_mongo
+    env_file:
+      - .env
+    volumes:
+      - link_shortener_mongo_data:/data/db
+    ports:
+      - "${MONGO_PORT:-27017}:27017"
+    restart: always
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+    link_shortener_mongo_data:

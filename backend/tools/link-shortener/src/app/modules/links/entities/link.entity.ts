@@ -1,1 +1,3 @@
-export class Link {}
+export class Link {
+    url!: string;
+}

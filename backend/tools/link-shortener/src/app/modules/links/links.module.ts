@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
+import { DatabaseModule } from '../../../infra/database/database.module';
 import { LinksService } from './links.service';
 import { LinksController } from './links.controller';
 
 @Module({
-  controllers: [LinksController],
-  providers: [LinksService],
+    imports: [DatabaseModule],
+    controllers: [LinksController],
+    providers: [LinksService]
 })
 export class LinksModule {}

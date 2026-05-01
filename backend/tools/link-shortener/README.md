@@ -1,6 +1,6 @@
-# Link Shortener
+# Ferramenta - Encurtador de Links
 
-API para encurtamento de links, desenvolvida com NestJS, TypeScript, MongoDB e Mongoose.
+Ferramenta backend para encurtamento de links, desenvolvida com NestJS, TypeScript, MongoDB e Mongoose.
 
 O projeto cobre o fluxo principal de cadastro de URLs, geracao de codigos curtos, listagem, busca, remocao e redirecionamento para o link original.
 
@@ -23,7 +23,7 @@ O projeto cobre o fluxo principal de cadastro de URLs, geracao de codigos curtos
 
 ## Funcionalidades
 
-- Healthcheck da API.
+- Healthcheck da ferramenta.
 - Criacao de link encurtado a partir de uma URL.
 - Geracao de codigo curto aleatorio.
 - Validacao da URL recebida no body.
@@ -62,13 +62,13 @@ MONGODB_URI=mongodb://link_shortener:link_shortener@localhost:27017/link_shorten
 docker compose up -d
 ```
 
-### 4. Inicie a API
+### 4. Inicie a ferramenta
 
 ```bash
 npm run dev
 ```
 
-Por padrao, caso `PORT` nao seja informado, a API usa:
+Por padrao, caso `PORT` nao seja informado, a ferramenta usa:
 
 ```text
 http://localhost:3000
@@ -80,7 +80,7 @@ http://localhost:3000
 
 | Comando | Descricao |
 | --- | --- |
-| `npm run dev` | Inicia a API em modo desenvolvimento |
+| `npm run dev` | Inicia a ferramenta em modo desenvolvimento |
 | `npm run build` | Compila o projeto TypeScript |
 | `npm start` | Executa a versao compilada |
 | `npm run lint` | Executa o ESLint com correcao automatica |
@@ -96,7 +96,7 @@ http://localhost:3000
 
 | Metodo | Rota | Descricao |
 | --- | --- | --- |
-| `GET` | `/ping` | Verifica se a API esta online |
+| `GET` | `/ping` | Verifica se a ferramenta esta online |
 
 ### Links
 
@@ -229,14 +229,14 @@ Location: https://exemplo.com/pagina/grande
 ### Redirecionamento
 
 - O endpoint publico usa o codigo curto em `/r/:code`.
-- Quando o codigo existe, a API responde com redirect HTTP para a URL original.
-- Quando o codigo nao existe, a API retorna `404`.
+- Quando o codigo existe, a ferramenta responde com redirect HTTP para a URL original.
+- Quando o codigo nao existe, a ferramenta retorna `404`.
 
 ---
 
 ## Banco de Dados
 
-A API utiliza MongoDB executado via Docker Compose.
+A ferramenta utiliza MongoDB executado via Docker Compose.
 
 Container padrao:
 

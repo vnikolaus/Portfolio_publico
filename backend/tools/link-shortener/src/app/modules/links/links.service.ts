@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { randomInt } from 'node:crypto';
 import mongoose, { Types } from 'mongoose';
+import { randomInt } from 'node:crypto';
 import { CreateLinkDto } from './dto/create-link.dto';
 
 type LinkDocument = {
@@ -42,6 +42,16 @@ export class LinksService {
 
     async findOne(id: string) {
         const link = await this.collection.findOne({ _id: new Types.ObjectId(id) });
+
+        if (!link) {
+            throw new NotFoundException('Link not found');
+        }
+
+        return link;
+    }
+
+    async findByCode(code: string) {
+        const link = await this.collection.findOne({ code });
 
         if (!link) {
             throw new NotFoundException('Link not found');

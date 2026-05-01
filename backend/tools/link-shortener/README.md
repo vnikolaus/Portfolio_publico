@@ -1,4 +1,4 @@
-# Ferramenta - Encurtador de Links
+# Encurtador de Links
 
 Ferramenta backend para encurtamento de links, desenvolvida com NestJS, TypeScript, MongoDB e Mongoose.
 

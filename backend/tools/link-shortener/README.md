@@ -48,12 +48,12 @@ npm install
 Crie um arquivo `.env` na raiz do projeto:
 
 ```env
-MONGO_INITDB_ROOT_USERNAME=link_shortener
-MONGO_INITDB_ROOT_PASSWORD=link_shortener
-MONGO_INITDB_DATABASE=link_shortener
+MONGO_INITDB_ROOT_USERNAME=SEU_USUARIO
+MONGO_INITDB_ROOT_PASSWORD=SUA_SENHA
+MONGO_INITDB_DATABASE=SEU_BANCO
 MONGO_PORT=27017
 
-MONGODB_URI=mongodb://link_shortener:link_shortener@localhost:27017/link_shortener?authSource=admin
+MONGODB_URI=mongodb://SEU_USUARIO:SUA_SENHA@localhost:27017/SEU_BANCO?authSource=admin
 ```
 
 ### 3. Suba o banco com Docker

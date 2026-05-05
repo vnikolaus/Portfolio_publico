@@ -18,11 +18,8 @@ export class FakePaymentGateway implements PaymentGateway {
         };
     }
 
-    private generateTid(loops = 9, maxLength = 10): string {
-        const rand = [];
-        for (let i = 0; i < loops; i++) {
-            rand.push(randomInt(maxLength));
-        }
-        return rand.join('');
+    private generateTid(length = 9, maxRandom = 10): string {
+        const rand = Array.from({ length: length }, () => randomInt(maxRandom));
+        return rand.join("");
     }
 }

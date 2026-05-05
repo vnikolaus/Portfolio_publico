@@ -1,10 +1,7 @@
 import type { Pool } from "pg";
 
-import type {
-    CreateEventInput,
-    EventRecord,
-    EventRepository,
-} from "../../app/repositories/EventRepository";
+import type { EventRepository } from "../../app/repositories/EventRepository";
+import { Event } from "../../domain/entities/Event";
 
 type EventRow = {
     event_id: string;
@@ -18,7 +15,7 @@ type EventRow = {
 export class EventRepositoryDatabase implements EventRepository {
     constructor(private readonly pool: Pool) {}
 
-    async create(event: CreateEventInput): Promise<EventRecord> {
+    async create(event: Event): Promise<Event> {
         const result = await this.pool.query<EventRow>(
             `
             insert into events (
@@ -39,10 +36,10 @@ export class EventRepositoryDatabase implements EventRepository {
             ],
         );
 
-        return this.toRecord(result.rows[0]);
+        return this.toEntity(result.rows[0]);
     }
 
-    async findById(eventId: string): Promise<EventRecord | null> {
+    async findById(eventId: string): Promise<Event | null> {
         const result = await this.pool.query<EventRow>(
             "select * from events where event_id = $1",
             [eventId],
@@ -50,10 +47,10 @@ export class EventRepositoryDatabase implements EventRepository {
 
         const row = result.rows[0];
 
-        return row ? this.toRecord(row) : null;
+        return row ? this.toEntity(row) : null;
     }
 
-    async update(event: CreateEventInput): Promise<EventRecord | null> {
+    async update(event: Event): Promise<Event | null> {
         const result = await this.pool.query<EventRow>(
             `
             update events
@@ -76,21 +73,21 @@ export class EventRepositoryDatabase implements EventRepository {
 
         const row = result.rows[0];
 
-        return row ? this.toRecord(row) : null;
+        return row ? this.toEntity(row) : null;
     }
 
     async delete(eventId: string): Promise<void> {
         await this.pool.query("delete from events where event_id = $1", [eventId]);
     }
 
-    private toRecord(row: EventRow): EventRecord {
-        return {
+    private toEntity(row: EventRow): Event {
+        return Event.restore({
             eventId: row.event_id,
             description: row.description,
             capacity: row.capacity,
             priceInCents: row.price_in_cents,
             location: row.location,
             createdAt: row.created_at,
-        };
+        });
     }
 }

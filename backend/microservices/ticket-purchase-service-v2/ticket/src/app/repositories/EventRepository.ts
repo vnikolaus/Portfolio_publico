@@ -1,17 +1,8 @@
-export type EventRecord = {
-    eventId: string;
-    description: string;
-    capacity: number;
-    priceInCents: number;
-    location: string;
-    createdAt: Date;
-};
-
-export type CreateEventInput = Omit<EventRecord, "createdAt">;
+import type { Event } from "../../domain/entities/Event";
 
 export interface EventRepository {
-    create(event: CreateEventInput): Promise<EventRecord>;
-    findById(eventId: string): Promise<EventRecord | null>;
-    update(event: CreateEventInput): Promise<EventRecord | null>;
+    create(event: Event): Promise<Event>;
+    findById(eventId: string): Promise<Event | null>;
+    update(event: Event): Promise<Event | null>;
     delete(eventId: string): Promise<void>;
 }

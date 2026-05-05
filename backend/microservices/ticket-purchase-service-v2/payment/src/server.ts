@@ -11,13 +11,15 @@ app.get("/health", (_request, response) => {
     response.status(200).json({ status: "ok" });
 });
 
-(async () => {
-    if (require.main === module) {
-        await queue.connect();
-        await ticketReservedSubscriber.listen();
+async function startServer(): Promise<void> {
+    await queue.connect();
+    await ticketReservedSubscriber.listen();
 
-        app.listen(port, () => {
-            console.log(`Payment service running on port ${port}`);
-        });
-    }
-})();
+    app.listen(port, () => {
+        console.log(`Payment service running on port ${port}`);
+    });
+}
+
+if (require.main === module) {
+    void startServer();
+}

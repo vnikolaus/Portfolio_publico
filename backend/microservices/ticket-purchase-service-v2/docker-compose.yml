@@ -4,16 +4,16 @@ services:
     container_name: ticket_purchase_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ticket
-      POSTGRES_PASSWORD: ticket
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
       POSTGRES_DB: ticket
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
       - ./ticket/src/infra/db/create.sql:/docker-entrypoint-initdb.d/01-create.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ticket -d ticket"]
+      test: ["CMD-SHELL", "pg_isready -U admin -d ticket"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -25,8 +25,8 @@ services:
     container_name: ticket_purchase_rabbitmq
     restart: unless-stopped
     environment:
-      RABBITMQ_DEFAULT_USER: ticket
-      RABBITMQ_DEFAULT_PASS: ticket
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
     ports:
       - "5672:5672"
       - "15672:15672"

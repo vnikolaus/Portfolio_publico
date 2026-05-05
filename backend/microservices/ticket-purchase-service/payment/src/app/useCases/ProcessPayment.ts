@@ -1,9 +1,9 @@
 import { Transaction } from '../../domain/entities/Transaction'
-import { Registry } from '../../infra/registry/Registry'
-import { FakePaymentGateway } from '../../infra/gateway/FakePaymentGateway'
-import { TransactionRepository } from '../repositories/TransactionReposistory'
-import { RabbitMQAdapter } from '../../infra/queue/RabbitMQAdapter'
 import { TicketApproved } from '../../domain/events/TicketApproved'
+import { FakePaymentGateway } from '../../infra/gateway/FakePaymentGateway'
+import { RabbitMQAdapter } from '../../infra/queue/RabbitMQAdapter'
+import { Registry } from '../../infra/registry/Registry'
+import { TransactionRepository } from '../repositories/TransactionReposistory'
 
 export class ProcessPayment {
     private transactionRepository: TransactionRepository

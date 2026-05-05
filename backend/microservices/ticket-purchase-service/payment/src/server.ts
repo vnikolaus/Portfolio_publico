@@ -1,1 +1,2 @@
-import './infra/registry/index'
+import './infra/registry/index';
+

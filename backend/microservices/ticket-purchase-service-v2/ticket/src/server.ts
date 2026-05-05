@@ -14,16 +14,14 @@ app.get("/health", (_request, response) => {
     response.status(200).json({ status: "ok" });
 });
 
-registerTicketRoutes(app);
+(async () => {
+    registerTicketRoutes(app);
 
-async function startServer(): Promise<void> {
-    await queue.connect();
+    if (require.main === module) {
+        await queue.connect();
 
-    app.listen(port, () => {
-        console.log(`Ticket service running on port ${port}`);
-    });
-}
-
-if (require.main === module) {
-    void startServer();
-}
+        app.listen(port, () => {
+            console.log(`Ticket service running on port ${port}`);
+        });
+    }
+})();

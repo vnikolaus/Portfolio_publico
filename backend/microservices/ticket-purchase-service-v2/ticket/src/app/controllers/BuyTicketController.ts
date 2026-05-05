@@ -6,6 +6,7 @@ const buyTicketSchema = z.object({
     eventId: z.uuid(),
     email: z.email(),
     creditCardToken: z.string().min(1),
+    quantity: z.number().int().positive(),
 });
 
 export class BuyTicketController {
@@ -25,6 +26,6 @@ export class BuyTicketController {
         const input = parsedInput.data;
         const output = await this.buyTicket.execute(input);
 
-        response.status(201).json({ ticketId: output.ticketId });
+        response.status(201).json(output);
     }
 }

@@ -4,11 +4,13 @@ import { Ticket } from "../../src/domain/entities/Ticket";
 describe("Ticket", () => {
     it("should create a reserved ticket", () => {
         const ticket = Ticket.create({
+            orderId: "268cf4fb-a18f-4731-bb99-15f893ad2c12",
             eventId: "c5d1cc9b-b118-48c3-9ab0-b8d7e5277448",
             email: "nk@teste.com",
         });
 
         expect(ticket.ticketId).toBeDefined();
+        expect(ticket.orderId).toBe("268cf4fb-a18f-4731-bb99-15f893ad2c12");
         expect(ticket.eventId).toBe("c5d1cc9b-b118-48c3-9ab0-b8d7e5277448");
         expect(ticket.email).toBe("nk@teste.com");
         expect(ticket.status).toBe("reserved");
@@ -17,6 +19,7 @@ describe("Ticket", () => {
 
     it("should approve a ticket", () => {
         const ticket = Ticket.create({
+            orderId: "268cf4fb-a18f-4731-bb99-15f893ad2c12",
             eventId: "c5d1cc9b-b118-48c3-9ab0-b8d7e5277448",
             email: "nk@teste.com",
         });
@@ -28,6 +31,7 @@ describe("Ticket", () => {
 
     it("should cancel a ticket", () => {
         const ticket = Ticket.create({
+            orderId: "268cf4fb-a18f-4731-bb99-15f893ad2c12",
             eventId: "c5d1cc9b-b118-48c3-9ab0-b8d7e5277448",
             email: "nk@teste.com",
         });
@@ -42,6 +46,7 @@ describe("Ticket", () => {
 
         const ticket = Ticket.restore({
             ticketId: "30c4e3b3-5660-466b-9300-9578f910bb5d",
+            orderId: "268cf4fb-a18f-4731-bb99-15f893ad2c12",
             eventId: "c5d1cc9b-b118-48c3-9ab0-b8d7e5277448",
             email: "nk@teste.com",
             status: "approved",

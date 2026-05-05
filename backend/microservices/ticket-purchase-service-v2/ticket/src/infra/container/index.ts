@@ -12,7 +12,12 @@ const eventRepository = new EventRepositoryDatabase(pool);
 const orderRepository = new OrderRepositoryDatabase(pool);
 const ticketRepository = new TicketRepositoryDatabase(pool);
 
-const buyTicket = new BuyTicket(eventRepository, ticketRepository, queue);
+const buyTicket = new BuyTicket(
+    eventRepository,
+    orderRepository,
+    ticketRepository,
+    queue,
+);
 const buyTicketController = new BuyTicketController(buyTicket);
 
 export {
@@ -22,6 +27,6 @@ export {
     orderRepository,
     pool,
     queue,
-    ticketRepository
+    ticketRepository,
 };
 

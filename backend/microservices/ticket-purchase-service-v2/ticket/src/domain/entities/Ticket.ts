@@ -4,6 +4,7 @@ export type TicketStatus = "reserved" | "approved" | "cancelled";
 
 type TicketProps = {
     ticketId: string;
+    orderId: string;
     eventId: string;
     email: string;
     status: TicketStatus;
@@ -20,6 +21,7 @@ export class Ticket {
     static create(props: CreateTicketProps): Ticket {
         return new Ticket({
             ticketId: props.ticketId ?? randomUUID(),
+            orderId: props.orderId,
             eventId: props.eventId,
             email: props.email,
             status: "reserved",
@@ -41,6 +43,10 @@ export class Ticket {
 
     get ticketId(): string {
         return this.props.ticketId;
+    }
+
+    get orderId(): string {
+        return this.props.orderId;
     }
 
     get eventId(): string {

@@ -1,29 +1,36 @@
+import { Order } from "../../domain/entities/Order";
 import { Ticket } from "../../domain/entities/Ticket";
 import type { Queue } from "../../infra/queue/Queue";
 import type { EventRepository } from "../repositories/EventRepository";
+import type { OrderRepository } from "../repositories/OrderRepository";
 import type { TicketRepository } from "../repositories/TicketRepository";
 
 type Input = {
     eventId: string;
     email: string;
     creditCardToken: string;
+    quantity: number;
 };
 
 type Output = {
-    ticketId: string;
+    orderId: string;
+    ticketIds: string[];
 };
 
-type TicketReservedPayload = {
-    ticketId: string;
+type OrderPendingPayload = {
+    orderId: string;
     eventId: string;
     email: string;
     creditCardToken: string;
-    priceInCents: number;
+    quantity: number;
+    totalPriceInCents: number;
+    ticketIds: string[];
 };
 
 export class BuyTicket {
     constructor(
         private readonly eventRepository: EventRepository,
+        private readonly orderRepository: OrderRepository,
         private readonly ticketRepository: TicketRepository,
         private readonly queue: Queue,
     ) {}
@@ -35,25 +42,54 @@ export class BuyTicket {
             throw new Error("Event not found");
         }
 
-        const ticket = Ticket.create({
+        const unavailableTickets =
+            await this.ticketRepository.countByEventIdAndStatuses(input.eventId, [
+                "reserved",
+                "approved",
+            ]);
+
+        const availableTickets = event.capacity - unavailableTickets;
+
+        if (input.quantity > availableTickets) {
+            throw new Error("Not enough tickets available");
+        }
+
+        const order = Order.create({
             eventId: input.eventId,
             email: input.email,
+            quantity: input.quantity,
+            totalPriceInCents: event.priceInCents * input.quantity,
         });
 
-        await this.ticketRepository.create(ticket);
+        await this.orderRepository.create(order);
 
-        const payload: TicketReservedPayload = {
-            ticketId: ticket.ticketId,
-            eventId: ticket.eventId,
-            email: ticket.email,
+        const tickets = Array.from({ length: input.quantity }, () =>
+            Ticket.create({
+                orderId: order.orderId,
+                eventId: input.eventId,
+                email: input.email,
+            }),
+        );
+
+        await this.ticketRepository.createMany(tickets);
+
+        const ticketIds = tickets.map((ticket) => ticket.ticketId);
+
+        const payload: OrderPendingPayload = {
+            orderId: order.orderId,
+            eventId: order.eventId,
+            email: order.email,
             creditCardToken: input.creditCardToken,
-            priceInCents: event.priceInCents,
+            quantity: order.quantity,
+            totalPriceInCents: order.totalPriceInCents,
+            ticketIds,
         };
 
-        await this.queue.publish("ticketReserved", payload);
+        await this.queue.publish("orderPending", payload);
 
         return {
-            ticketId: ticket.ticketId,
+            orderId: order.orderId,
+            ticketIds,
         };
     }
 }

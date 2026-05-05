@@ -7,7 +7,11 @@ type EventRow = {
     description: string;
     capacity: number;
     price_in_cents: number;
-    location: string;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    zipcode: string;
     created_at: Date;
 };
 
@@ -22,8 +26,12 @@ export class EventRepositoryDatabase implements EventRepository {
                 description,
                 capacity,
                 price_in_cents,
-                location
-            ) values ($1, $2, $3, $4, $5)
+                address,
+                city,
+                state,
+                country,
+                zipcode
+            ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             returning *
             `,
             [
@@ -31,7 +39,11 @@ export class EventRepositoryDatabase implements EventRepository {
                 event.description,
                 event.capacity,
                 event.priceInCents,
-                event.location,
+                event.address,
+                event.city,
+                event.state,
+                event.country,
+                event.zipcode,
             ],
         );
 
@@ -57,7 +69,11 @@ export class EventRepositoryDatabase implements EventRepository {
                 description = $2,
                 capacity = $3,
                 price_in_cents = $4,
-                location = $5
+                address = $5,
+                city = $6,
+                state = $7,
+                country = $8,
+                zipcode = $9
             where event_id = $1
             returning *
             `,
@@ -66,7 +82,11 @@ export class EventRepositoryDatabase implements EventRepository {
                 event.description,
                 event.capacity,
                 event.priceInCents,
-                event.location,
+                event.address,
+                event.city,
+                event.state,
+                event.country,
+                event.zipcode,
             ],
         );
 
@@ -85,7 +105,11 @@ export class EventRepositoryDatabase implements EventRepository {
             description: row.description,
             capacity: row.capacity,
             priceInCents: row.price_in_cents,
-            location: row.location,
+            address: row.address,
+            city: row.city,
+            state: row.state,
+            country: row.country,
+            zipcode: row.zipcode,
             createdAt: row.created_at,
         });
     }

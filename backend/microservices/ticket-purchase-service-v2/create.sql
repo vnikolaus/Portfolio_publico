@@ -3,7 +3,11 @@ create table events (
     description text not null,
     capacity integer not null check (capacity > 0),
     price_in_cents integer not null check (price_in_cents >= 0),
-    location text not null,
+    address text not null,
+    city text not null,
+    state text not null,
+    country text not null,
+    zipcode text not null,
     created_at timestamptz not null default now()
 );
 

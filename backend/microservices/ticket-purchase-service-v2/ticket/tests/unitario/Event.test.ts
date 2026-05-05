@@ -7,14 +7,22 @@ describe("Event", () => {
             description: "Tomorrowland Brasil",
             capacity: 100000,
             priceInCents: 150000,
-            location: "Parque Maeda - Itu",
+            address: "Rod. Dep. Archimedes Lammoglia, Km 18",
+            city: "Itu",
+            state: "SP",
+            country: "Brasil",
+            zipcode: "13300-000",
         });
 
         expect(event.eventId).toBeDefined();
         expect(event.description).toBe("Tomorrowland Brasil");
         expect(event.capacity).toBe(100000);
         expect(event.priceInCents).toBe(150000);
-        expect(event.location).toBe("Parque Maeda - Itu");
+        expect(event.address).toBe("Rod. Dep. Archimedes Lammoglia, Km 18");
+        expect(event.city).toBe("Itu");
+        expect(event.state).toBe("SP");
+        expect(event.country).toBe("Brasil");
+        expect(event.zipcode).toBe("13300-000");
         expect(event.createdAt).toBeInstanceOf(Date);
     });
 
@@ -26,7 +34,11 @@ describe("Event", () => {
             description: "Tomorrowland Brasil",
             capacity: 100000,
             priceInCents: 150000,
-            location: "Parque Maeda - Itu",
+            address: "Rod. Dep. Archimedes Lammoglia, Km 18",
+            city: "Itu",
+            state: "SP",
+            country: "Brasil",
+            zipcode: "13300-000",
             createdAt,
         });
 

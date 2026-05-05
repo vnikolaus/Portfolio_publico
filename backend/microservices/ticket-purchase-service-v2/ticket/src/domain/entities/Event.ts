@@ -5,7 +5,11 @@ type EventProps = {
     description: string;
     capacity: number;
     priceInCents: number;
-    location: string;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    zipcode: string;
     createdAt: Date;
 };
 
@@ -22,7 +26,11 @@ export class Event {
             description: props.description,
             capacity: props.capacity,
             priceInCents: props.priceInCents,
-            location: props.location,
+            address: props.address,
+            city: props.city,
+            state: props.state,
+            country: props.country,
+            zipcode: props.zipcode,
             createdAt: new Date(),
         });
     }
@@ -47,8 +55,24 @@ export class Event {
         return this.props.priceInCents;
     }
 
-    get location(): string {
-        return this.props.location;
+    get address(): string {
+        return this.props.address;
+    }
+
+    get city(): string {
+        return this.props.city;
+    }
+
+    get state(): string {
+        return this.props.state;
+    }
+
+    get country(): string {
+        return this.props.country;
+    }
+
+    get zipcode(): string {
+        return this.props.zipcode;
     }
 
     get createdAt(): Date {

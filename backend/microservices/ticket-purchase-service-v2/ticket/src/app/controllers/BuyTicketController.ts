@@ -25,8 +25,6 @@ export class BuyTicketController {
         const input = parsedInput.data;
         const output = await this.buyTicket.execute(input);
 
-        response.status(201).json({
-            ticketId: output.ticketId,
-        });
+        response.status(201).json({ ticketId: output.ticketId });
     }
 }

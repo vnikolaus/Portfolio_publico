@@ -11,7 +11,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql
-      - ./ticket/src/infra/db/create.sql:/docker-entrypoint-initdb.d/01-create.sql:ro
+      - ./create.sql:/docker-entrypoint-initdb.d/01-create.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U admin -d ticket"]
       interval: 10s

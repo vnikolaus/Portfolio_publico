@@ -1,5 +1,4 @@
 import type { Pool } from "pg";
-
 import type { TransactionRepository } from "../../app/repositories/TransactionRepository";
 import {
     Transaction,

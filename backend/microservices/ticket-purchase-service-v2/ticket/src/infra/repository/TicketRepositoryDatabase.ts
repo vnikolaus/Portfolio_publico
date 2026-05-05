@@ -1,5 +1,4 @@
 import type { Pool } from "pg";
-
 import type { TicketRepository } from "../../app/repositories/TicketRepository";
 import { Ticket, type TicketStatus } from "../../domain/entities/Ticket";
 

@@ -1,5 +1,4 @@
 import amqp, { type Channel, type ChannelModel } from "amqplib";
-
 import type { Queue } from "./Queue";
 
 export class RabbitMQAdapter implements Queue {

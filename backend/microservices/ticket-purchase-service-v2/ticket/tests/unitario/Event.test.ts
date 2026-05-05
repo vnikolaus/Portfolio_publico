@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-
 import { Event } from "../../src/domain/entities/Event";
 
 describe("Event", () => {

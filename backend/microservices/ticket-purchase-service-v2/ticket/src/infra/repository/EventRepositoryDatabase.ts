@@ -1,5 +1,4 @@
 import type { Pool } from "pg";
-
 import type { EventRepository } from "../../app/repositories/EventRepository";
 import { Event } from "../../domain/entities/Event";
 

@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-
 import { Ticket } from "../../src/domain/entities/Ticket";
 
 describe("Ticket", () => {

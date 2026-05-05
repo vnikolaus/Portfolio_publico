@@ -1,6 +1,5 @@
 import type { Request, Response } from "express";
 import { z } from "zod";
-
 import type { BuyTicket } from "../useCases/BuyTicket";
 
 const buyTicketSchema = z.object({

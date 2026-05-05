@@ -1,10 +1,8 @@
-import type { Express } from "express";
-
+import { Router } from "express";
 import { buyTicketController } from "../../infra/container";
 
+export const ticketRoutes = Router();
 
-export function registerTicketRoutes(app: Express): void {
-    app.post("/buy", (request, response) =>
-        buyTicketController.handle(request, response),
-    );
-}
+ticketRoutes.post("/buy", (request, response) =>
+    buyTicketController.handle(request, response),
+);

@@ -14,14 +14,14 @@ export class FakePaymentGateway implements PaymentGateway {
         return {
             tid: this.generateTid(),
             priceInCents: input.priceInCents,
-            status: "approved",
+            status: "paid",
         };
     }
 
-    private generateTid(length = 9, maxInt = 10): string {
+    private generateTid(loops = 9, maxLength = 10): string {
         const rand = [];
-        for (let i = 0; i < length; i++) {
-            rand.push(randomInt(maxInt));
+        for (let i = 0; i < loops; i++) {
+            rand.push(randomInt(maxLength));
         }
         return rand.join('');
     }

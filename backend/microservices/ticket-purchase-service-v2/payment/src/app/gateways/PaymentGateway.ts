@@ -1,4 +1,4 @@
-export type PaymentStatus = "approved" | "rejected";
+export type PaymentStatus = "paid" | "failed";
 
 export type CreateTransactionInput = {
     email: string;

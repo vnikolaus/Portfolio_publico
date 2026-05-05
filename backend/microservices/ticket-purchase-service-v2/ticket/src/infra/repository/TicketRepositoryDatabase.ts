@@ -1,11 +1,7 @@
 import type { Pool } from "pg";
 
-import type {
-    CreateTicketInput,
-    TicketRecord,
-    TicketRepository,
-    TicketStatus,
-} from "../../app/repositories/TicketRepository";
+import type { TicketRepository } from "../../app/repositories/TicketRepository";
+import { Ticket, type TicketStatus } from "../../domain/entities/Ticket";
 
 type TicketRow = {
     ticket_id: string;
@@ -18,7 +14,7 @@ type TicketRow = {
 export class TicketRepositoryDatabase implements TicketRepository {
     constructor(private readonly pool: Pool) {}
 
-    async create(ticket: CreateTicketInput): Promise<TicketRecord> {
+    async create(ticket: Ticket): Promise<Ticket> {
         const result = await this.pool.query<TicketRow>(
             `
             insert into tickets (
@@ -32,10 +28,10 @@ export class TicketRepositoryDatabase implements TicketRepository {
             [ticket.ticketId, ticket.eventId, ticket.email, ticket.status],
         );
 
-        return this.toRecord(result.rows[0]);
+        return this.toEntity(result.rows[0]);
     }
 
-    async findById(ticketId: string): Promise<TicketRecord | null> {
+    async findById(ticketId: string): Promise<Ticket | null> {
         const result = await this.pool.query<TicketRow>(
             "select * from tickets where ticket_id = $1",
             [ticketId],
@@ -43,10 +39,10 @@ export class TicketRepositoryDatabase implements TicketRepository {
 
         const row = result.rows[0];
 
-        return row ? this.toRecord(row) : null;
+        return row ? this.toEntity(row) : null;
     }
 
-    async update(ticket: CreateTicketInput): Promise<TicketRecord | null> {
+    async update(ticket: Ticket): Promise<Ticket | null> {
         const result = await this.pool.query<TicketRow>(
             `
             update tickets
@@ -62,7 +58,7 @@ export class TicketRepositoryDatabase implements TicketRepository {
 
         const row = result.rows[0];
 
-        return row ? this.toRecord(row) : null;
+        return row ? this.toEntity(row) : null;
     }
 
     async delete(ticketId: string): Promise<void> {
@@ -71,13 +67,13 @@ export class TicketRepositoryDatabase implements TicketRepository {
         ]);
     }
 
-    private toRecord(row: TicketRow): TicketRecord {
-        return {
+    private toEntity(row: TicketRow): Ticket {
+        return Ticket.restore({
             ticketId: row.ticket_id,
             eventId: row.event_id,
             email: row.email,
             status: row.status,
             createdAt: row.created_at,
-        };
+        });
     }
 }

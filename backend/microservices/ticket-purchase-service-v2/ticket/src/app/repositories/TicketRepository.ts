@@ -1,18 +1,8 @@
-export type TicketStatus = "reserved" | "approved" | "rejected";
-
-export type TicketRecord = {
-    ticketId: string;
-    eventId: string;
-    email: string;
-    status: TicketStatus;
-    createdAt: Date;
-};
-
-export type CreateTicketInput = Omit<TicketRecord, "createdAt">;
+import type { Ticket } from "../../domain/entities/Ticket";
 
 export interface TicketRepository {
-    create(ticket: CreateTicketInput): Promise<TicketRecord>;
-    findById(ticketId: string): Promise<TicketRecord | null>;
-    update(ticket: CreateTicketInput): Promise<TicketRecord | null>;
+    create(ticket: Ticket): Promise<Ticket>;
+    findById(ticketId: string): Promise<Ticket | null>;
+    update(ticket: Ticket): Promise<Ticket | null>;
     delete(ticketId: string): Promise<void>;
 }

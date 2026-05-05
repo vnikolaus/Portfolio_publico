@@ -1,11 +1,10 @@
 import type { Pool } from "pg";
 
-import type {
-    CreateTransactionInput,
-    TransactionRecord,
-    TransactionRepository,
-    TransactionStatus,
-} from "../../app/repositories/TransactionRepository";
+import type { TransactionRepository } from "../../app/repositories/TransactionRepository";
+import {
+    Transaction,
+    type TransactionStatus,
+} from "../../domain/entities/Transaction";
 
 type TransactionRow = {
     transaction_id: string;
@@ -20,7 +19,7 @@ type TransactionRow = {
 export class TransactionRepositoryDatabase implements TransactionRepository {
     constructor(private readonly pool: Pool) {}
 
-    async create(transaction: CreateTransactionInput): Promise<TransactionRecord> {
+    async create(transaction: Transaction): Promise<Transaction> {
         const result = await this.pool.query<TransactionRow>(
             `
             insert into transactions (
@@ -43,11 +42,11 @@ export class TransactionRepositoryDatabase implements TransactionRepository {
             ],
         );
 
-        return this.toRecord(result.rows[0]);
+        return this.toEntity(result.rows[0]);
     }
 
-    private toRecord(row: TransactionRow): TransactionRecord {
-        return {
+    private toEntity(row: TransactionRow): Transaction {
+        return Transaction.restore({
             transactionId: row.transaction_id,
             ticketId: row.ticket_id,
             eventId: row.event_id,
@@ -55,6 +54,6 @@ export class TransactionRepositoryDatabase implements TransactionRepository {
             tid: row.tid,
             status: row.status,
             createdAt: row.created_at,
-        };
+        });
     }
 }

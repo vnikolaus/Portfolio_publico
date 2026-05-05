@@ -1,10 +1,24 @@
 import { BuyTicketController } from "../../app/controllers/BuyTicketController";
 import { BuyTicket } from "../../app/useCases/BuyTicket";
 import { pool } from "../db/connection";
+import { RabbitMQAdapter } from "../queue/RabbitMQAdapter";
+import { EventRepositoryDatabase } from "../repository/EventRepositoryDatabase";
 import { TicketRepositoryDatabase } from "../repository/TicketRepositoryDatabase";
 
+const queue = new RabbitMQAdapter();
+
+const eventRepository = new EventRepositoryDatabase(pool);
 const ticketRepository = new TicketRepositoryDatabase(pool);
-const buyTicket = new BuyTicket(ticketRepository);
+
+const buyTicket = new BuyTicket(eventRepository, ticketRepository, queue);
 const buyTicketController = new BuyTicketController(buyTicket);
 
-export { buyTicket, buyTicketController, pool, ticketRepository };
+export {
+    buyTicket,
+    buyTicketController,
+    eventRepository,
+    pool,
+    queue,
+    ticketRepository
+};
+

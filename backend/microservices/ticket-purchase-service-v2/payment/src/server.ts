@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import { queue, ticketReservedSubscriber } from "./infra/container";
+import { orderPendingSubscriber, queue } from "./infra/container";
 
 const port = Number(process.env.PORT ?? 3001);
 export const app = express();
@@ -13,7 +13,7 @@ app.get("/health", (_request, response) => {
 
 async function startServer(): Promise<void> {
     await queue.connect();
-    await ticketReservedSubscriber.listen();
+    await orderPendingSubscriber.listen();
 
     app.listen(port, () => {
         console.log(`Payment service running on port ${port}`);

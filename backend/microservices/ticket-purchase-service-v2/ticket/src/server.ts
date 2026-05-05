@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import { ticketRoutes } from "./app/routes/ticket.routes";
+import { orderRoutes } from "./app/routes/order.routes";
 import { queue } from "./infra/container";
 
 const port = Number(process.env.PORT ?? 3000);
@@ -12,7 +12,7 @@ app.get("/health", (_request, response) => {
     response.status(200).json({ status: "ok" });
 });
 
-app.use("/tickets", ticketRoutes);
+app.use("/orders", orderRoutes);
 
 async function startServer(): Promise<void> {
     await queue.connect();

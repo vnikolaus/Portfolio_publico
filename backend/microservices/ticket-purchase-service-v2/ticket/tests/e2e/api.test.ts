@@ -31,9 +31,9 @@ describe("API - Health", () => {
   });
 });
 
-describe("API - Buy", () => {
+describe("API - Orders", () => {
   it("should reject an invalid body", async () => {
-    const response = await fetch(`${apiUrl}/tickets/buy`, {
+    const response = await fetch(`${apiUrl}/orders`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({}),

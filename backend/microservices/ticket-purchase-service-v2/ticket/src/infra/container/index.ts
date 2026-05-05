@@ -1,4 +1,5 @@
-import { BuyTicketController } from "../../app/controllers/BuyTicketController";
+import { CreateOrderController } from "../../app/controllers/CreateOrderController";
+import { GetOrderController } from "../../app/controllers/GetOrderController";
 import { BuyTicket } from "../../app/useCases/BuyTicket";
 import { pool } from "../db/connection";
 import { RabbitMQAdapter } from "../queue/RabbitMQAdapter";
@@ -18,12 +19,14 @@ const buyTicket = new BuyTicket(
     ticketRepository,
     queue,
 );
-const buyTicketController = new BuyTicketController(buyTicket);
+const createOrderController = new CreateOrderController(buyTicket);
+const getOrderController = new GetOrderController(orderRepository);
 
 export {
     buyTicket,
-    buyTicketController,
+    createOrderController,
     eventRepository,
+    getOrderController,
     orderRepository,
     pool,
     queue,

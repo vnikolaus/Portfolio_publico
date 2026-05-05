@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 
-export type TicketStatus = "reserved" | "approved" | "rejected";
+export type TicketStatus = "reserved" | "approved" | "cancelled";
 
 type TicketProps = {
     ticketId: string;
@@ -35,8 +35,8 @@ export class Ticket {
         this.props.status = "approved";
     }
 
-    reject(): void {
-        this.props.status = "rejected";
+    cancel(): void {
+        this.props.status = "cancelled";
     }
 
     get ticketId(): string {

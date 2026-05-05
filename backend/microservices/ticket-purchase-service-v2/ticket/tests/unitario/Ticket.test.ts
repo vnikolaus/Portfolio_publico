@@ -26,15 +26,15 @@ describe("Ticket", () => {
         expect(ticket.status).toBe("approved");
     });
 
-    it("should reject a ticket", () => {
+    it("should cancel a ticket", () => {
         const ticket = Ticket.create({
             eventId: "c5d1cc9b-b118-48c3-9ab0-b8d7e5277448",
             email: "nk@teste.com",
         });
 
-        ticket.reject();
+        ticket.cancel();
 
-        expect(ticket.status).toBe("rejected");
+        expect(ticket.status).toBe("cancelled");
     });
 
     it("should restore a ticket", () => {

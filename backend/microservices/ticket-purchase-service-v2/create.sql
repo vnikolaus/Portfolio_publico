@@ -11,11 +11,22 @@ create table events (
     created_at timestamptz not null default now()
 );
 
-create table tickets (
-    ticket_id uuid primary key,
+create table orders (
+    order_id uuid primary key,
     event_id uuid not null references events(event_id),
     email text not null,
-    status text not null check (status in ('reserved', 'approved', 'rejected')),
+    quantity integer not null check (quantity > 0),
+    total_price_in_cents integer not null check (total_price_in_cents >= 0),
+    status text not null check (status in ('pending', 'paid', 'cancelled')),
+    created_at timestamptz not null default now()
+);
+
+create table tickets (
+    ticket_id uuid primary key,
+    order_id uuid not null references orders(order_id),
+    event_id uuid not null references events(event_id),
+    email text not null,
+    status text not null check (status in ('reserved', 'approved', 'cancelled')),
     created_at timestamptz not null default now()
 );
 
@@ -29,5 +40,7 @@ create table transactions (
     created_at timestamptz not null default now()
 );
 
+create index orders_event_id_idx on orders(event_id);
 create index tickets_event_id_idx on tickets(event_id);
+create index tickets_order_id_idx on tickets(order_id);
 create index transactions_ticket_id_idx on transactions(ticket_id);

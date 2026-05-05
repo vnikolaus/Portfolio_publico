@@ -1,0 +1,49 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: ticket_purchase_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ticket
+      POSTGRES_PASSWORD: ticket
+      POSTGRES_DB: ticket
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./ticket/src/infra/db/create.sql:/docker-entrypoint-initdb.d/01-create.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ticket -d ticket"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ticket_purchase
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: ticket_purchase_rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ticket
+      RABBITMQ_DEFAULT_PASS: ticket
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ticket_purchase
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
+
+networks:
+  ticket_purchase:
+    driver: bridge

@@ -2,7 +2,7 @@ import type { Server } from "node:http";
 
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-import { app } from "../src/server";
+import { app } from "../../src/server";
 
 let server: Server;
 let apiUrl: string;

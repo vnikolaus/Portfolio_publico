@@ -34,13 +34,13 @@ describe("API - Health", () => {
 });
 
 describe("API - Buy", () => {
-  it("should return a placeholder response", async () => {
+  it("should reject an invalid body", async () => {
     const response = await fetch(`${apiUrl}/buy`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}),
     });
-    const output = await response.json();
 
-    expect(response.status).toBe(201);
-    expect(output).toEqual({ message: "Ticket purchase endpoint" });
+    expect(response.status).toBe(400);
   });
 });

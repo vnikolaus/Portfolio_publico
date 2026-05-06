@@ -7,9 +7,7 @@ import {
 
 type TransactionRow = {
     transaction_id: string;
-    ticket_id: string;
-    event_id: string;
-    price_in_cents: number;
+    order_id: string;
     tid: string | null;
     status: TransactionStatus;
     created_at: Date;
@@ -23,19 +21,15 @@ export class TransactionRepositoryDatabase implements TransactionRepository {
             `
             insert into transactions (
                 transaction_id,
-                ticket_id,
-                event_id,
-                price_in_cents,
+                order_id,
                 tid,
                 status
-            ) values ($1, $2, $3, $4, $5, $6)
+            ) values ($1, $2, $3, $4)
             returning *
             `,
             [
                 transaction.transactionId,
-                transaction.ticketId,
-                transaction.eventId,
-                transaction.priceInCents,
+                transaction.orderId,
                 transaction.tid,
                 transaction.status,
             ],
@@ -47,9 +41,7 @@ export class TransactionRepositoryDatabase implements TransactionRepository {
     private toEntity(row: TransactionRow): Transaction {
         return Transaction.restore({
             transactionId: row.transaction_id,
-            ticketId: row.ticket_id,
-            eventId: row.event_id,
-            priceInCents: row.price_in_cents,
+            orderId: row.order_id,
             tid: row.tid,
             status: row.status,
             createdAt: row.created_at,

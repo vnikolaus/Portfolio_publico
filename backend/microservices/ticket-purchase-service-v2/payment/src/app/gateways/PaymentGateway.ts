@@ -8,7 +8,6 @@ export type CreateTransactionInput = {
 
 export type CreateTransactionOutput = {
     tid: string;
-    priceInCents: number;
     status: PaymentStatus;
 };
 

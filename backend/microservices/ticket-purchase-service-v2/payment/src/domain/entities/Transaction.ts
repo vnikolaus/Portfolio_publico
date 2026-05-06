@@ -4,9 +4,7 @@ export type TransactionStatus = "pending" | "paid" | "failed";
 
 type TransactionProps = {
     transactionId: string;
-    ticketId: string;
-    eventId: string;
-    priceInCents: number;
+    orderId: string;
     tid: string | null;
     status: TransactionStatus;
     createdAt: Date;
@@ -22,9 +20,7 @@ export class Transaction {
     static create(props: CreateTransactionProps): Transaction {
         return new Transaction({
             transactionId: props.transactionId ?? randomUUID(),
-            ticketId: props.ticketId,
-            eventId: props.eventId,
-            priceInCents: props.priceInCents,
+            orderId: props.orderId,
             tid: props.tid,
             status: props.status,
             createdAt: new Date(),
@@ -39,16 +35,8 @@ export class Transaction {
         return this.props.transactionId;
     }
 
-    get ticketId(): string {
-        return this.props.ticketId;
-    }
-
-    get eventId(): string {
-        return this.props.eventId;
-    }
-
-    get priceInCents(): number {
-        return this.props.priceInCents;
+    get orderId(): string {
+        return this.props.orderId;
     }
 
     get tid(): string | null {

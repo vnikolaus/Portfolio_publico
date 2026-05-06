@@ -32,9 +32,7 @@ create table tickets (
 
 create table transactions (
     transaction_id uuid primary key,
-    ticket_id uuid not null references tickets(ticket_id),
-    event_id uuid not null references events(event_id),
-    price_in_cents integer not null check (price_in_cents >= 0),
+    order_id uuid not null references orders(order_id),
     tid text,
     status text not null check (status in ('pending', 'paid', 'failed')),
     created_at timestamptz not null default now()
@@ -43,4 +41,4 @@ create table transactions (
 create index orders_event_id_idx on orders(event_id);
 create index tickets_event_id_idx on tickets(event_id);
 create index tickets_order_id_idx on tickets(order_id);
-create index transactions_ticket_id_idx on transactions(ticket_id);
+create index transactions_order_id_idx on transactions(order_id);

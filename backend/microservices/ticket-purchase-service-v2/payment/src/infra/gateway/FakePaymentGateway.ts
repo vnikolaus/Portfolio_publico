@@ -7,15 +7,29 @@ import type {
 
 export class FakePaymentGateway implements PaymentGateway {
     async createTransaction(input: CreateTransactionInput): Promise<CreateTransactionOutput> {
-        if (!input.email || !input.creditCardToken) {
-            throw new Error("Invalid transaction");
+        if (!this.isValidTransaction(input)) {
+            return {
+                tid: "",
+                status: "failed",
+            };
         }
 
         return {
             tid: this.generateTid(),
-            priceInCents: input.priceInCents,
             status: "paid",
         };
+    }
+
+    private isValidTransaction(input: CreateTransactionInput): boolean {
+        return (
+            this.isValidEmail(input.email) &&
+            input.creditCardToken.trim().length > 0 &&
+            input.priceInCents >= 0
+        );
+    }
+
+    private isValidEmail(email: string): boolean {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
     private generateTid(length = 9, maxRandom = 10): string {

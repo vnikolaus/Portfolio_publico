@@ -1,7 +1,11 @@
 import "dotenv/config";
 import express from "express";
 import { orderRoutes } from "./app/routes/order.routes";
-import { queue } from "./infra/container";
+import {
+    orderPaidSubscriber,
+    orderPaymentFailedSubscriber,
+    queue,
+} from "./infra/container";
 
 const port = Number(process.env.PORT ?? 3000);
 export const app = express();
@@ -16,6 +20,8 @@ app.use("/orders", orderRoutes);
 
 async function startServer(): Promise<void> {
     await queue.connect();
+    await orderPaidSubscriber.listen();
+    await orderPaymentFailedSubscriber.listen();
 
     app.listen(port, () => {
         console.log(`Ticket service running on port ${port}`);

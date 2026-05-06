@@ -34,8 +34,6 @@ export class ProcessPayment {
 
         await this.transactionRepository.create(transaction);
 
-        console.log("transaction: ", transaction);
-
         if (transaction.status === "paid") {
             await this.queue.publish("orderPaid", {
                 orderId: input.orderId,

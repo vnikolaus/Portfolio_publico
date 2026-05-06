@@ -1,5 +1,7 @@
 import { CreateOrderController } from "../../app/controllers/CreateOrderController";
 import { GetOrderController } from "../../app/controllers/GetOrderController";
+import { OrderPaidSubscriber } from "../../app/subscribers/OrderPaidSubscriber";
+import { OrderPaymentFailedSubscriber } from "../../app/subscribers/OrderPaymentFailedSubscriber";
 import { BuyTicket } from "../../app/useCases/BuyTicket";
 import { pool } from "../db/connection";
 import { RabbitMQAdapter } from "../queue/RabbitMQAdapter";
@@ -21,12 +23,16 @@ const buyTicket = new BuyTicket(
 );
 const createOrderController = new CreateOrderController(buyTicket);
 const getOrderController = new GetOrderController(orderRepository);
+const orderPaidSubscriber = new OrderPaidSubscriber(queue);
+const orderPaymentFailedSubscriber = new OrderPaymentFailedSubscriber(queue);
 
 export {
     buyTicket,
     createOrderController,
     eventRepository,
     getOrderController,
+    orderPaidSubscriber,
+    orderPaymentFailedSubscriber,
     orderRepository,
     pool,
     queue,

@@ -36,32 +36,27 @@ Para uma visualização mais detalhada, acesse diretamente o projeto desejado:
 ### 🧩 Microsserviços
 
 * [Bank Transaction Service](./backend/microservices/bank-transaction-service/) - em atualização
-* [Inventory Management Service](./backend/microservices/inventory-management-service/)
+* [Inventory Management Service](./backend/microservices/inventory-management-service/) - em atualização
 * [Serviço de Compra de Ingressos](./backend/microservices/ticket-purchase-service/)
 
 ### 📡 WebSockets / Socket.IO
 
-* [B3 Stock Stream](./backend/websockets/b3-stock-stream/)
-* [Prize Draw System](./backend/websockets/prize-draw-system/)
-* [Realtime Chat](./backend/websockets/realtime-chat/)
+* [B3 Stock Stream](./backend/websockets/b3-stock-stream/) - em atualização
+* [Prize Draw System](./backend/websockets/prize-draw-system/) - em atualização
+* [Realtime Chat](./backend/websockets/realtime-chat/) - em atualização
 
 ### 💻 Projetos Fullstack
 
-* [B3 Stock Tracker](./fullstack/b3-stock-tracker/)
-* [Compound Interest Calculator](./fullstack/compound-interest-calculator/)
+* [B3 Stock Tracker](./fullstack/b3-stock-tracker/) - em atualização
+* [Compound Interest Calculator](./fullstack/compound-interest-calculator/) - em atualização
 
 ### 📚 Estudos
 
-* [Blockchain Simulator](./studies/blockchain-simulator/)
+* [Simulador Blockchain](./studies/blockchain-simulator/)
 
 ### 🗃️ Archive
 
-Projetos antigos ou ainda pendentes de reorganização:
+Projetos antigos ou ainda pendentes de reorganização
 
-* [Ecommerce API](./archive/ecommerce-api/)
-* [CRUD Products](./archive/Express_APIv2_CRUD_Products/)
-* [JWT Login Users](./archive/NestJS_APIv2_Login_Users/)
-* [React Working Timer](./archive/React_Working_Timer/)
-* [Ticket Purchase Service Old](./archive/ticket-purchase-service-old/)
 
 ## 😃 Obrigado pela visita!

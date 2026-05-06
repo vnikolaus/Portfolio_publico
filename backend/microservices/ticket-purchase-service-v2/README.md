@@ -57,11 +57,37 @@ transactions: pending | paid | failed
 
 ## Demonstracao do fluxo
 
+### Gerenciamento de eventos
+
+Antes da compra, o modulo `ticket` permite cadastrar, listar, atualizar e remover eventos.
+
+Criacao de evento:
+
+![Create Event](./img/ticket/createEvent.gif)
+
+Listagem de eventos:
+
+![Get Events](./img/ticket/getEvents.gif)
+
+Atualizacao de evento:
+
+![Update Event](./img/ticket/updateEvent.gif)
+
+Remocao de evento:
+
+![Delete Events](./img/ticket/deleteEvents.gif)
+
 ### Criacao da order
 
 O endpoint `POST /orders` cria a order, reserva os tickets e publica a mensagem na fila `orderPending`.
 
 ![Create Order](./img/ticket/createOrder.gif)
+
+### Consulta antes do pagamento
+
+Logo apos a criacao, a order ainda esta com status `pending` e os tickets estao reservados.
+
+![Get Order Pending](./img/ticket/getOrderPending.gif)
 
 Fila `orderPending` sendo populada:
 
@@ -81,7 +107,7 @@ O servico `ticket` consome `orderPaid`, atualiza a order para `paid` e altera os
 
 ### Consulta da order
 
-Depois do processamento, a order pode ser consultada com seus tickets.
+Depois do processamento, a order pode ser consultada novamente. Nesse ponto, a order esta `paid` e os tickets estao `approved`.
 
 ![Get Order Paid](./img/ticket/getOrderPaid.gif)
 

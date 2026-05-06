@@ -6,7 +6,7 @@ const orderPendingSchema = z.object({
     orderId: z.uuid(),
     eventId: z.uuid(),
     email: z.email(),
-    creditCardToken: z.string().min(1),
+    creditCardToken: z.string().min(3),
     quantity: z.number().int().positive(),
     totalPriceInCents: z.number().int().nonnegative(),
     ticketIds: z.array(z.uuid()).min(1),

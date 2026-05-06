@@ -5,7 +5,7 @@ import type { BuyTicket } from "../useCases/BuyTicket";
 const createOrderSchema = z.object({
     eventId: z.uuid(),
     email: z.email(),
-    creditCardToken: z.string().min(1),
+    creditCardToken: z.string().min(3),
     quantity: z.number().int().positive(),
 });
 

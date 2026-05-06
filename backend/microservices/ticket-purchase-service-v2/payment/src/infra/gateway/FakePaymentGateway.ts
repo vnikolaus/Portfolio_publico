@@ -23,7 +23,7 @@ export class FakePaymentGateway implements PaymentGateway {
     private isValidTransaction(input: CreateTransactionInput): boolean {
         return (
             this.isValidEmail(input.email) &&
-            input.creditCardToken.trim().length > 0 &&
+            input.creditCardToken.trim().length >= 3 &&
             input.priceInCents >= 0
         );
     }

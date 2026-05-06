@@ -23,6 +23,7 @@ export class ApproveOrder {
 
         await this.ticketRepository.updateStatusByIds(input.ticketIds, "approved");
         await this.orderRepository.update(order);
-        console.log("order: ", order);
+        
+        console.log("[ORDER APPROVED]", order);
     }
 }

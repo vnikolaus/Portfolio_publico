@@ -87,6 +87,15 @@ export class TicketRepositoryDatabase implements TicketRepository {
         return row ? this.toEntity(row) : null;
     }
 
+    async findByOrderId(orderId: string): Promise<Ticket[]> {
+        const result = await this.pool.query<TicketRow>(
+            "select * from tickets where order_id = $1 order by created_at asc",
+            [orderId],
+        );
+
+        return result.rows.map((row) => this.toEntity(row));
+    }
+
     async update(ticket: Ticket): Promise<Ticket | null> {
         const result = await this.pool.query<TicketRow>(
             `

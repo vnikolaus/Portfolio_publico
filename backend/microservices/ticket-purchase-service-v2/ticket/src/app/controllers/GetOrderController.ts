@@ -1,8 +1,12 @@
 import type { Request, Response } from "express";
 import type { OrderRepository } from "../repositories/OrderRepository";
+import type { TicketRepository } from "../repositories/TicketRepository";
 
 export class GetOrderController {
-    constructor(private readonly orderRepository: OrderRepository) {}
+    constructor(
+        private readonly orderRepository: OrderRepository,
+        private readonly ticketRepository: TicketRepository,
+    ) {}
 
     async handle(request: Request, response: Response): Promise<void> {
         const orderId = String(request.params.orderId ?? "");
@@ -19,6 +23,8 @@ export class GetOrderController {
             return;
         }
 
+        const tickets = await this.ticketRepository.findByOrderId(order.orderId);
+
         response.status(200).json({
             orderId: order.orderId,
             eventId: order.eventId,
@@ -27,6 +33,11 @@ export class GetOrderController {
             totalPriceInCents: order.totalPriceInCents,
             status: order.status,
             createdAt: order.createdAt,
+            tickets: tickets.map((ticket) => ({
+                ticketId: ticket.ticketId,
+                status: ticket.status,
+                createdAt: ticket.createdAt,
+            })),
         });
     }
 }

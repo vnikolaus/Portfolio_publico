@@ -23,7 +23,10 @@ const buyTicket = new BuyTicket(
     queue,
 );
 const createOrderController = new CreateOrderController(buyTicket);
-const getOrderController = new GetOrderController(orderRepository);
+const getOrderController = new GetOrderController(
+    orderRepository,
+    ticketRepository,
+);
 const approveOrder = new ApproveOrder(orderRepository, ticketRepository);
 const orderPaidSubscriber = new OrderPaidSubscriber(queue, approveOrder);
 const orderPaymentFailedSubscriber = new OrderPaymentFailedSubscriber(queue);

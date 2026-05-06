@@ -84,6 +84,16 @@ tickets: reserved | approved | cancelled
 transactions: pending | paid | failed
 ```
 
+Filas usadas no fluxo:
+
+| Fila | Publicada por | Consumida por | Objetivo |
+| --- | --- | --- | --- |
+| `orderPending` | `ticket` | `payment` | Envia uma order pendente para processamento do pagamento |
+| `orderPaid` | `payment` | `ticket` | Informa que o pagamento foi aprovado |
+| `orderPaymentFailed` | `payment` | `ticket` | Informa que o pagamento falhou e a order deve ser cancelada |
+
+![All Queues](./img/queue/allQueues.jpg)
+
 ---
 
 ## Demonstração do fluxo

@@ -1,62 +1,62 @@
-# Portfolio - View
+# Portfólio - View
 
-Repositorio com ideias e projetos pessoais desenvolvidos por [Victor Nikolaus](https://github.com/vnikolaus).
+Repositório com ideias e projetos pessoais desenvolvidos por [Victor Nikolaus](https://github.com/vnikolaus).
 
-> Em atualizacao: a estrutura do portfolio esta sendo reorganizada e alguns projetos ainda serao movidos/documentados.
+> ⚠️ Em atualização: a estrutura do portfólio está sendo reorganizada e alguns projetos ainda serão movidos/documentados.
 
-## Comecando
+## 🚀 Começando
 
-Repositorio separado por sessoes para facilitar a visualizacao.
+Repositório separado por sessões para facilitar a visualização.
 
-Veja por sessao:
+Veja por sessão:
 
-* [Backend](./backend/)
-* [APIs](./backend/apis/)
-* [Tools](./backend/tools/)
-* [Microsservicos](./backend/microservices/)
-* [WebSockets](./backend/websockets/)
-* [Projetos Fullstack](./fullstack/)
-* [Estudos](./studies/)
-* [Archive](./archive/)
+* [⚙️ Backend](./backend/)
+* [🔌 APIs](./backend/apis/)
+* [🛠️ Tools](./backend/tools/)
+* [🧩 Microsserviços](./backend/microservices/)
+* [📡 WebSockets](./backend/websockets/)
+* [💻 Projetos Fullstack](./fullstack/)
+* [📚 Estudos](./studies/)
+* [🗃️ Archive](./archive/)
 
-## Visualizacao Detalhada
+## ⌨️ Visualização Detalhada
 
-Para uma visualizacao mais detalhada, acesse diretamente o projeto desejado:
+Para uma visualização mais detalhada, acesse diretamente o projeto desejado:
 
-### APIs
+### 🔌 APIs
 
 * [API Reserva de Livros](./backend/apis/book-reservation-api/)
 * [API Estacionamento](./backend/apis/parking-management-api/)
 
-### Tools
+### 🛠️ Tools
 
 * [Criptografia](./backend/tools/encryption-service/)
 * [Encurtador de Links](./backend/tools/link-shortener/)
 
-### Microsservicos
+### 🧩 Microsserviços
 
-* [Bank Transaction Service](./backend/microservices/bank-transaction-service/) - em atualizacao
+* [Bank Transaction Service](./backend/microservices/bank-transaction-service/) - em atualização
 * [Inventory Management Service](./backend/microservices/inventory-management-service/)
-* [Compra de Ingressos](./backend/microservices/ticket-purchase-service/)
+* [Serviço de Compra de Ingressos](./backend/microservices/ticket-purchase-service/)
 
-### WebSockets / Socket.IO
+### 📡 WebSockets / Socket.IO
 
 * [B3 Stock Stream](./backend/websockets/b3-stock-stream/)
 * [Prize Draw System](./backend/websockets/prize-draw-system/)
 * [Realtime Chat](./backend/websockets/realtime-chat/)
 
-### Projetos Fullstack
+### 💻 Projetos Fullstack
 
 * [B3 Stock Tracker](./fullstack/b3-stock-tracker/)
 * [Compound Interest Calculator](./fullstack/compound-interest-calculator/)
 
-### Estudos
+### 📚 Estudos
 
 * [Blockchain Simulator](./studies/blockchain-simulator/)
 
-### Archive
+### 🗃️ Archive
 
-Projetos antigos ou ainda pendentes de reorganizacao:
+Projetos antigos ou ainda pendentes de reorganização:
 
 * [Ecommerce API](./archive/ecommerce-api/)
 * [CRUD Products](./archive/Express_APIv2_CRUD_Products/)
@@ -64,4 +64,4 @@ Projetos antigos ou ainda pendentes de reorganizacao:
 * [React Working Timer](./archive/React_Working_Timer/)
 * [Ticket Purchase Service Old](./archive/ticket-purchase-service-old/)
 
-## Obrigado pela visita!
+## 😃 Obrigado pela visita!

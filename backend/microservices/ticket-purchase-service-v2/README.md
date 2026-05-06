@@ -4,6 +4,24 @@ Aplicacao de compra de ingressos usando microservicos Node.js com TypeScript, Po
 
 O objetivo do projeto e demonstrar um fluxo realista de compra assíncrona: o servico de tickets cria uma order e reserva os tickets, enquanto o servico de pagamento processa a transacao em outro processo e notifica o resultado por filas.
 
+---
+
+## Visao Geral
+
+| Item | Descricao |
+| --- | --- |
+| Runtime | Node.js |
+| Linguagem | TypeScript |
+| Framework HTTP | Express |
+| Banco de dados | PostgreSQL |
+| Mensageria | RabbitMQ |
+| Driver SQL | pg |
+| Validacao | Zod |
+| Testes | Vitest |
+| Infra local | Docker Compose |
+
+---
+
 ## Arquitetura
 
 ```txt
@@ -14,16 +32,27 @@ ticket-purchase-service-v2/
   docker-compose.yml
 ```
 
-## Tecnologias
+### Modulos
 
-- Node.js
-- TypeScript
-- Express
-- PostgreSQL com `pg`
-- RabbitMQ com `amqplib`
-- Zod
-- Vitest
-- Docker Compose
+| Modulo | Responsabilidade |
+| --- | --- |
+| `ticket` | Eventos, orders, tickets, disponibilidade e atualizacao do status da compra |
+| `payment` | Processamento fake de pagamento, transactions e publicacao do resultado |
+
+---
+
+## Funcionalidades
+
+- Cadastro, listagem, edicao e remocao de eventos.
+- Criacao de orders com um ou mais tickets.
+- Validacao de disponibilidade usando tickets `reserved` e `approved`.
+- Reserva de tickets antes do pagamento.
+- Processamento assíncrono de pagamento via RabbitMQ.
+- Atualizacao automatica de orders e tickets apos o resultado do pagamento.
+- Persistencia em PostgreSQL sem ORM, usando `pg`.
+- Validacao de entrada com Zod.
+
+---
 
 ## Fluxo assíncrono com RabbitMQ
 
@@ -54,6 +83,8 @@ orders: pending | paid | cancelled
 tickets: reserved | approved | cancelled
 transactions: pending | paid | failed
 ```
+
+---
 
 ## Demonstracao do fluxo
 
@@ -111,19 +142,21 @@ Depois do processamento, a order pode ser consultada novamente. Nesse ponto, a o
 
 ![Get Order Paid](./img/ticket/getOrderPaid.gif)
 
+---
+
 ## Endpoints principais
 
 ### Ticket service
 
-```txt
-GET    /health
-POST   /orders
-GET    /orders/:orderId
-POST   /events
-GET    /events
-PUT    /events/:eventId
-DELETE /events/:eventId
-```
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| `GET` | `/health` | Verifica se o servico esta online |
+| `POST` | `/orders` | Cria uma order e reserva tickets |
+| `GET` | `/orders/:orderId` | Consulta uma order com seus tickets |
+| `POST` | `/events` | Cadastra um evento |
+| `GET` | `/events` | Lista eventos |
+| `PUT` | `/events/:eventId` | Atualiza um evento |
+| `DELETE` | `/events/:eventId` | Remove um evento |
 
 Exemplo de criacao de evento:
 
@@ -151,6 +184,8 @@ Exemplo de criacao de order:
 }
 ```
 
+---
+
 ## Banco de dados
 
 O schema inicial cria:
@@ -162,7 +197,7 @@ tickets
 transactions
 ```
 
-O dinheiro e armazenado em centavos:
+O dinheiro fica armazenado em centavos:
 
 ```txt
 price_in_cents
@@ -170,6 +205,8 @@ total_price_in_cents
 ```
 
 Isso evita problemas de precisao com valores monetarios.
+
+---
 
 ## Como rodar
 
@@ -196,6 +233,8 @@ user: admin
 password: admin
 ```
 
+---
+
 ## Variaveis de ambiente
 
 Cada modulo possui `.env.example`.
@@ -215,6 +254,8 @@ DATABASE_URL=postgresql://admin:admin@localhost:5432/ticket
 AMQP_URL=amqp://admin:admin@localhost:5672
 ```
 
+---
+
 ## Rodando os servicos
 
 Ticket:
@@ -233,6 +274,22 @@ npm install
 npm run dev
 ```
 
+---
+
+## Scripts
+
+Os dois modulos possuem os mesmos scripts principais.
+
+| Comando | Descricao |
+| --- | --- |
+| `npm run dev` | Inicia o servico em modo desenvolvimento |
+| `npm run build` | Compila o projeto |
+| `npm start` | Executa a versao compilada |
+| `npm run typecheck` | Executa a checagem de tipos |
+| `npm test` | Executa os testes com Vitest |
+
+---
+
 ## Testes
 
 Cada modulo possui testes unitarios, e2e e de integracao.
@@ -243,9 +300,61 @@ npm test -- --run
 
 Evidencias:
 
+Modulo `ticket`:
+
 ![Ticket Tests](./img/ticket/testsTicket.jpg)
 
+Modulo `payment`:
+
 ![Payment Tests](./img/ticket/testsPayments.jpg)
+
+---
+
+## Estrutura
+
+```txt
+ticket/
+  src/
+    app/
+      controllers/
+      repositories/
+      routes/
+      subscribers/
+      useCases/
+    domain/
+      entities/
+    infra/
+      container/
+      db/
+      queue/
+      repository/
+  tests/
+    e2e/
+    integracao/
+    unitario/
+
+payment/
+  src/
+    app/
+      gateways/
+      repositories/
+      subscribers/
+      useCases/
+    domain/
+      entities/
+    infra/
+      container/
+      db/
+      gateway/
+      queue/
+      repository/
+  tests/
+    e2e/
+    integracao/
+    unitario/
+```
+
+---
 
 ## Pontos de projeto
 
@@ -255,3 +364,9 @@ Evidencias:
 - Subscribers recebem eventos do RabbitMQ.
 - O pagamento e processado de forma assíncrona.
 - O estoque considera tickets `reserved` e `approved` para evitar vender alem da capacidade.
+
+---
+
+## Autor
+
+Victor Nikolaus

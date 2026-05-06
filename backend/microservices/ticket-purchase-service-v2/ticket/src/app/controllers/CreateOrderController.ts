@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { z } from "zod";
-import type { BuyTicket } from "../useCases/CreateOrder";
+import type { CreateOrder } from "../useCases/CreateOrder";
 
 const createOrderSchema = z.object({
     eventId: z.uuid(),
@@ -10,7 +10,7 @@ const createOrderSchema = z.object({
 });
 
 export class CreateOrderController {
-    constructor(private readonly buyTicket: BuyTicket) {}
+    constructor(private readonly buyTicket: CreateOrder) {}
 
     async handle(request: Request, response: Response): Promise<void> {
         const parsedInput = createOrderSchema.safeParse(request.body);

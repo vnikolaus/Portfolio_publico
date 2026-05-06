@@ -27,7 +27,7 @@ type OrderPendingPayload = {
     ticketIds: string[];
 };
 
-export class BuyTicket {
+export class CreateOrder {
     constructor(
         private readonly eventRepository: EventRepository,
         private readonly orderRepository: OrderRepository,

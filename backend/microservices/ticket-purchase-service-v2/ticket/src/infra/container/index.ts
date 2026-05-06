@@ -5,7 +5,7 @@ import { OrderPaidSubscriber } from "../../app/subscribers/OrderPaidSubscriber";
 import { OrderPaymentFailedSubscriber } from "../../app/subscribers/OrderPaymentFailedSubscriber";
 import { ApproveOrder } from "../../app/useCases/ApproveOrder";
 import { CancelOrder } from "../../app/useCases/CancelOrder";
-import { BuyTicket } from "../../app/useCases/CreateOrder";
+import { CreateOrder } from "../../app/useCases/CreateOrder";
 import { pool } from "../db/connection";
 import { RabbitMQAdapter } from "../queue/RabbitMQAdapter";
 import { EventRepositoryDatabase } from "../repository/EventRepositoryDatabase";
@@ -18,7 +18,7 @@ const eventRepository = new EventRepositoryDatabase(pool);
 const orderRepository = new OrderRepositoryDatabase(pool);
 const ticketRepository = new TicketRepositoryDatabase(pool);
 
-const buyTicket = new BuyTicket(
+const buyTicket = new CreateOrder(
     eventRepository,
     orderRepository,
     ticketRepository,

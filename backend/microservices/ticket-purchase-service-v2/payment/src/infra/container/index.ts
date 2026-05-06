@@ -9,7 +9,11 @@ const queue = new RabbitMQAdapter();
 const paymentGateway = new FakePaymentGateway();
 
 const transactionRepository = new TransactionRepositoryDatabase(pool);
-const processPayment = new ProcessPayment(paymentGateway, transactionRepository);
+const processPayment = new ProcessPayment(
+    paymentGateway,
+    transactionRepository,
+    queue,
+);
 const orderPendingSubscriber = new OrderPendingSubscriber(queue, processPayment);
 
 export {
@@ -20,4 +24,3 @@ export {
     queue,
     transactionRepository
 };
-

@@ -1,4 +1,5 @@
 import { Transaction } from "../../domain/entities/Transaction";
+import type { Queue } from "../../infra/queue/Queue";
 import type { PaymentGateway } from "../gateways/PaymentGateway";
 import type { TransactionRepository } from "../repositories/TransactionRepository";
 
@@ -15,6 +16,7 @@ export class ProcessPayment {
     constructor(
         private readonly paymentGateway: PaymentGateway,
         private readonly transactionRepository: TransactionRepository,
+        private readonly queue: Queue,
     ) {}
 
     async execute(input: Input): Promise<void> {
@@ -31,5 +33,20 @@ export class ProcessPayment {
         });
 
         await this.transactionRepository.create(transaction);
+
+        console.log("transaction: ", transaction);
+
+        if (transaction.status === "paid") {
+            await this.queue.publish("orderPaid", {
+                orderId: input.orderId,
+                ticketIds: input.ticketIds,
+            });
+            return;
+        }
+
+        await this.queue.publish("orderPaymentFailed", {
+            orderId: input.orderId,
+            ticketIds: input.ticketIds,
+        });
     }
 }

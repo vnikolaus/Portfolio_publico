@@ -2,6 +2,7 @@ import { CreateOrderController } from "../../app/controllers/CreateOrderControll
 import { GetOrderController } from "../../app/controllers/GetOrderController";
 import { OrderPaidSubscriber } from "../../app/subscribers/OrderPaidSubscriber";
 import { OrderPaymentFailedSubscriber } from "../../app/subscribers/OrderPaymentFailedSubscriber";
+import { ApproveOrder } from "../../app/useCases/ApproveOrder";
 import { BuyTicket } from "../../app/useCases/BuyTicket";
 import { pool } from "../db/connection";
 import { RabbitMQAdapter } from "../queue/RabbitMQAdapter";
@@ -23,10 +24,12 @@ const buyTicket = new BuyTicket(
 );
 const createOrderController = new CreateOrderController(buyTicket);
 const getOrderController = new GetOrderController(orderRepository);
-const orderPaidSubscriber = new OrderPaidSubscriber(queue);
+const approveOrder = new ApproveOrder(orderRepository, ticketRepository);
+const orderPaidSubscriber = new OrderPaidSubscriber(queue, approveOrder);
 const orderPaymentFailedSubscriber = new OrderPaymentFailedSubscriber(queue);
 
 export {
+    approveOrder,
     buyTicket,
     createOrderController,
     eventRepository,

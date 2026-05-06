@@ -113,6 +113,22 @@ export class TicketRepositoryDatabase implements TicketRepository {
         return row ? this.toEntity(row) : null;
     }
 
+    async updateStatusByIds(ticketIds: string[], status: TicketStatus): Promise<Ticket[]> {
+        if (ticketIds.length === 0) return [];
+
+        const result = await this.pool.query<TicketRow>(
+            `
+            update tickets
+            set status = $2
+            where ticket_id = any($1::uuid[])
+            returning *
+            `,
+            [ticketIds, status],
+        );
+
+        return result.rows.map((row) => this.toEntity(row));
+    }
+
     async delete(ticketId: string): Promise<void> {
         await this.pool.query("delete from tickets where ticket_id = $1", [
             ticketId,

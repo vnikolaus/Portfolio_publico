@@ -6,5 +6,6 @@ export interface TicketRepository {
     findById(ticketId: string): Promise<Ticket | null>;
     countByEventIdAndStatuses(eventId: string, statuses: TicketStatus[]): Promise<number>;
     update(ticket: Ticket): Promise<Ticket | null>;
+    updateStatusByIds(ticketIds: string[], status: TicketStatus): Promise<Ticket[]>;
     delete(ticketId: string): Promise<void>;
 }

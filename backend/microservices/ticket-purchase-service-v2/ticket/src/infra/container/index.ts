@@ -1,9 +1,11 @@
 import { CreateOrderController } from "../../app/controllers/CreateOrderController";
+import { EventController } from "../../app/controllers/EventController";
 import { GetOrderController } from "../../app/controllers/GetOrderController";
 import { OrderPaidSubscriber } from "../../app/subscribers/OrderPaidSubscriber";
 import { OrderPaymentFailedSubscriber } from "../../app/subscribers/OrderPaymentFailedSubscriber";
 import { ApproveOrder } from "../../app/useCases/ApproveOrder";
 import { BuyTicket } from "../../app/useCases/BuyTicket";
+import { CancelOrder } from "../../app/useCases/CancelOrder";
 import { pool } from "../db/connection";
 import { RabbitMQAdapter } from "../queue/RabbitMQAdapter";
 import { EventRepositoryDatabase } from "../repository/EventRepositoryDatabase";
@@ -22,19 +24,26 @@ const buyTicket = new BuyTicket(
     ticketRepository,
     queue,
 );
+const eventController = new EventController(eventRepository);
 const createOrderController = new CreateOrderController(buyTicket);
 const getOrderController = new GetOrderController(
     orderRepository,
     ticketRepository,
 );
 const approveOrder = new ApproveOrder(orderRepository, ticketRepository);
+const cancelOrder = new CancelOrder(orderRepository, ticketRepository);
 const orderPaidSubscriber = new OrderPaidSubscriber(queue, approveOrder);
-const orderPaymentFailedSubscriber = new OrderPaymentFailedSubscriber(queue);
+const orderPaymentFailedSubscriber = new OrderPaymentFailedSubscriber(
+    queue,
+    cancelOrder,
+);
 
 export {
     approveOrder,
     buyTicket,
+    cancelOrder,
     createOrderController,
+    eventController,
     eventRepository,
     getOrderController,
     orderPaidSubscriber,
@@ -42,6 +51,6 @@ export {
     orderRepository,
     pool,
     queue,
-    ticketRepository,
+    ticketRepository
 };
 

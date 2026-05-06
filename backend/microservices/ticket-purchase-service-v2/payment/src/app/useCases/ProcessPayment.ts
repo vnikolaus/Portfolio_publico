@@ -20,6 +20,8 @@ export class ProcessPayment {
     ) {}
 
     async execute(input: Input): Promise<void> {
+        await this.sleep(5000);
+
         const gatewayOutput = await this.paymentGateway.createTransaction({
             email: input.email,
             creditCardToken: input.creditCardToken,
@@ -46,5 +48,9 @@ export class ProcessPayment {
             orderId: input.orderId,
             ticketIds: input.ticketIds,
         });
+    }
+
+    private sleep(ms: number): Promise<void> {
+        return new Promise((resolve) => setTimeout(resolve, ms));
     }
 }

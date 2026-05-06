@@ -61,6 +61,14 @@ export class EventRepositoryDatabase implements EventRepository {
         return row ? this.toEntity(row) : null;
     }
 
+    async findAll(): Promise<Event[]> {
+        const result = await this.pool.query<EventRow>(
+            "select * from events order by created_at desc",
+        );
+
+        return result.rows.map((row) => this.toEntity(row));
+    }
+
     async update(event: Event): Promise<Event | null> {
         const result = await this.pool.query<EventRow>(
             `

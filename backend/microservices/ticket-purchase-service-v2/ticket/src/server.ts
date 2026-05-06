@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import { eventRoutes } from "./app/routes/event.routes";
 import { orderRoutes } from "./app/routes/order.routes";
 import {
     orderPaidSubscriber,
@@ -17,6 +18,7 @@ app.get("/health", (_request, response) => {
 });
 
 app.use("/orders", orderRoutes);
+app.use("/events", eventRoutes);
 
 async function startServer(): Promise<void> {
     await queue.connect();

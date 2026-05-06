@@ -42,3 +42,28 @@ describe("API - Orders", () => {
     expect(response.status).toBe(400);
   });
 });
+
+describe("API - Events", () => {
+  it("should reject an invalid create event body", async () => {
+    const response = await fetch(`${apiUrl}/events`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}),
+    });
+
+    expect(response.status).toBe(400);
+  });
+
+  it("should reject an invalid update event body", async () => {
+    const response = await fetch(
+      `${apiUrl}/events/267d40de-56aa-45b6-83a6-64d075a97620`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      },
+    );
+
+    expect(response.status).toBe(400);
+  });
+});

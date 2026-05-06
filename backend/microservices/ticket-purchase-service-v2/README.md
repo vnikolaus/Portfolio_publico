@@ -1,4 +1,4 @@
-# Ticket Purchase Service V2
+# Ticket Purchase Service
 
 Aplicacao de compra de ingressos usando microservicos Node.js com TypeScript, PostgreSQL e RabbitMQ.
 
@@ -25,7 +25,7 @@ O objetivo do projeto e demonstrar um fluxo realista de compra assíncrona: o se
 ## Arquitetura
 
 ```txt
-ticket-purchase-service-v2/
+ticket-purchase-service/
   ticket/      # eventos, orders, tickets e status da compra
   payment/     # processamento fake de pagamento e transactions
   create.sql   # schema inicial do PostgreSQL

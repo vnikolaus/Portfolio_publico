@@ -12,7 +12,7 @@ Veja por sessão:
 
 * [⚙️ Backend](./backend/)
 * [🔌 APIs](./backend/apis/)
-* [🛠️ Tools](./backend/tools/)
+* [🛠️ Ferramentas](./backend/tools/)
 * [🧩 Microsserviços](./backend/microservices/)
 * [📡 WebSockets](./backend/websockets/)
 * [💻 Projetos Fullstack](./fullstack/)
@@ -28,7 +28,7 @@ Para uma visualização mais detalhada, acesse diretamente o projeto desejado:
 * [API Reserva de Livros](./backend/apis/book-reservation-api/)
 * [API Estacionamento](./backend/apis/parking-management-api/)
 
-### 🛠️ Tools
+### 🛠️ Ferramentas
 
 * [Criptografia](./backend/tools/encryption-service/)
 * [Encurtador de Links](./backend/tools/link-shortener/)

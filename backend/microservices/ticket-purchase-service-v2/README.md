@@ -1,6 +1,6 @@
 # Ticket Purchase Service V2
 
-Refatoracao de uma aplicacao de compra de ingressos usando dois microservicos Node.js com TypeScript, PostgreSQL e RabbitMQ.
+Aplicacao de compra de ingressos usando microservicos Node.js com TypeScript, PostgreSQL e RabbitMQ.
 
 O objetivo do projeto e demonstrar um fluxo realista de compra assíncrona: o servico de tickets cria uma order e reserva os tickets, enquanto o servico de pagamento processa a transacao em outro processo e notifica o resultado por filas.
 
@@ -26,6 +26,11 @@ ticket-purchase-service-v2/
 - Docker Compose
 
 ## Fluxo assíncrono com RabbitMQ
+
+O projeto possui dois modulos principais:
+
+- `ticket`: responsavel por eventos, orders, tickets, validacao de disponibilidade e atualizacao do status da compra.
+- `payment`: responsavel por consumir orders pendentes, simular o pagamento, persistir transactions e publicar o resultado.
 
 O fluxo principal foi desenhado para separar a criacao da compra do processamento do pagamento.
 

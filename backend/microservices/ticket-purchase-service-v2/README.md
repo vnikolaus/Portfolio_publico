@@ -103,7 +103,7 @@ O servico `payment` consome `orderPending`, processa o pagamento fake, persiste 
 
 O servico `ticket` consome `orderPaid`, atualiza a order para `paid` e altera os tickets para `approved`.
 
-![Approve Order](./img/queue/approveOrder.gif)
+![Approve Order](./img/queue/orderApproved.gif)
 
 ### Consulta da order
 

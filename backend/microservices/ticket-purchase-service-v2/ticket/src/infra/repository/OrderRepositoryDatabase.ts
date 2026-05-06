@@ -80,6 +80,10 @@ export class OrderRepositoryDatabase implements OrderRepository {
         return row ? this.toEntity(row) : null;
     }
 
+    async delete(orderId: string): Promise<void> {
+        await this.pool.query("delete from orders where order_id = $1", [orderId]);
+    }
+
     private toEntity(row: OrderRow): Order {
         return Order.restore({
             orderId: row.order_id,

@@ -4,4 +4,5 @@ export interface OrderRepository {
     create(order: Order): Promise<Order>;
     findById(orderId: string): Promise<Order | null>;
     update(order: Order): Promise<Order | null>;
+    delete(orderId: string): Promise<void>;
 }

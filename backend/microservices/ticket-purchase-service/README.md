@@ -1,4 +1,4 @@
-# Ticket Purchase Service
+# Serviço de Compra de Ingressos
 
 Aplicação de compra de ingressos usando microserviços Node.js com TypeScript, PostgreSQL e RabbitMQ.
 

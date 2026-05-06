@@ -1,14 +1,14 @@
 # Ticket Purchase Service
 
-Aplicacao de compra de ingressos usando microservicos Node.js com TypeScript, PostgreSQL e RabbitMQ.
+Aplicação de compra de ingressos usando microserviços Node.js com TypeScript, PostgreSQL e RabbitMQ.
 
-O objetivo do projeto e demonstrar um fluxo realista de compra assíncrona: o servico de tickets cria uma order e reserva os tickets, enquanto o servico de pagamento processa a transacao em outro processo e notifica o resultado por filas.
+O objetivo do projeto é demonstrar um fluxo realista de compra assíncrona: o serviço de tickets cria uma order e reserva os tickets, enquanto o serviço de pagamento processa a transação em outro processo e notifica o resultado por filas.
 
 ---
 
-## Visao Geral
+## Visão Geral
 
-| Item | Descricao |
+| Item | Descrição |
 | --- | --- |
 | Runtime | Node.js |
 | Linguagem | TypeScript |
@@ -16,7 +16,7 @@ O objetivo do projeto e demonstrar um fluxo realista de compra assíncrona: o se
 | Banco de dados | PostgreSQL |
 | Mensageria | RabbitMQ |
 | Driver SQL | pg |
-| Validacao | Zod |
+| Validação | Zod |
 | Testes | Vitest |
 | Infra local | Docker Compose |
 
@@ -32,36 +32,36 @@ ticket-purchase-service/
   docker-compose.yml
 ```
 
-### Modulos
+### Módulos
 
-| Modulo | Responsabilidade |
+| Módulo | Responsabilidade |
 | --- | --- |
-| `ticket` | Eventos, orders, tickets, disponibilidade e atualizacao do status da compra |
-| `payment` | Processamento fake de pagamento, transactions e publicacao do resultado |
+| `ticket` | Eventos, orders, tickets, disponibilidade e atualização do status da compra |
+| `payment` | Processamento fake de pagamento, transactions e publicação do resultado |
 
 ---
 
 ## Funcionalidades
 
-- Cadastro, listagem, edicao e remocao de eventos.
-- Criacao de orders com um ou mais tickets.
-- Validacao de disponibilidade usando tickets `reserved` e `approved`.
+- Cadastro, listagem, edição e remoção de eventos.
+- Criação de orders com um ou mais tickets.
+- Validação de disponibilidade usando tickets `reserved` e `approved`.
 - Reserva de tickets antes do pagamento.
 - Processamento assíncrono de pagamento via RabbitMQ.
-- Atualizacao automatica de orders e tickets apos o resultado do pagamento.
-- Persistencia em PostgreSQL sem ORM, usando `pg`.
-- Validacao de entrada com Zod.
+- Atualização automática de orders e tickets após o resultado do pagamento.
+- Persistência em PostgreSQL sem ORM, usando `pg`.
+- Validação de entrada com Zod.
 
 ---
 
 ## Fluxo assíncrono com RabbitMQ
 
-O projeto possui dois modulos principais:
+O projeto possui dois módulos principais:
 
-- `ticket`: responsavel por eventos, orders, tickets, validacao de disponibilidade e atualizacao do status da compra.
-- `payment`: responsavel por consumir orders pendentes, simular o pagamento, persistir transactions e publicar o resultado.
+- `ticket`: responsável por eventos, orders, tickets, validação de disponibilidade e atualização do status da compra.
+- `payment`: responsável por consumir orders pendentes, simular o pagamento, persistir transactions e publicar o resultado.
 
-O fluxo principal foi desenhado para separar a criacao da compra do processamento do pagamento.
+O fluxo principal foi desenhado para separar a criação da compra do processamento do pagamento.
 
 ```txt
 1. POST /orders
@@ -86,13 +86,13 @@ transactions: pending | paid | failed
 
 ---
 
-## Demonstracao do fluxo
+## Demonstração do fluxo
 
 ### Gerenciamento de eventos
 
-Antes da compra, o modulo `ticket` permite cadastrar, listar, atualizar e remover eventos.
+Antes da compra, o módulo `ticket` permite cadastrar, listar, atualizar e remover eventos.
 
-Criacao de evento:
+Criação de evento:
 
 ![Create Event](./img/ticket/createEvent.gif)
 
@@ -100,15 +100,15 @@ Listagem de eventos:
 
 ![Get Events](./img/ticket/getEvents.gif)
 
-Atualizacao de evento:
+Atualização de evento:
 
 ![Update Event](./img/ticket/updateEvent.gif)
 
-Remocao de evento:
+Remoção de evento:
 
 ![Delete Events](./img/ticket/deleteEvents.gif)
 
-### Criacao da order
+### Criação da order
 
 O endpoint `POST /orders` cria a order, reserva os tickets e publica a mensagem na fila `orderPending`.
 
@@ -116,7 +116,7 @@ O endpoint `POST /orders` cria a order, reserva os tickets e publica a mensagem 
 
 ### Consulta antes do pagamento
 
-Logo apos a criacao, a order ainda esta com status `pending` e os tickets estao reservados.
+Logo após a criação, a order ainda está com status `pending` e os tickets estão reservados.
 
 ![Get Order Pending](./img/ticket/getOrderPending.gif)
 
@@ -126,19 +126,19 @@ Fila `orderPending` sendo populada:
 
 ### Pagamento processado
 
-O servico `payment` consome `orderPending`, processa o pagamento fake, persiste a transaction e publica `orderPaid`.
+O serviço `payment` consome `orderPending`, processa o pagamento fake, persiste a transaction e publica `orderPaid`.
 
 ![Order Paid Queue](./img/queue/orderPaid.gif)
 
 ### Order aprovada
 
-O servico `ticket` consome `orderPaid`, atualiza a order para `paid` e altera os tickets para `approved`.
+O serviço `ticket` consome `orderPaid`, atualiza a order para `paid` e altera os tickets para `approved`.
 
 ![Approve Order](./img/queue/orderApproved.gif)
 
 ### Consulta da order
 
-Depois do processamento, a order pode ser consultada novamente. Nesse ponto, a order esta `paid` e os tickets estao `approved`.
+Depois do processamento, a order pode ser consultada novamente. Nesse ponto, a order está `paid` e os tickets estão `approved`.
 
 ![Get Order Paid](./img/ticket/getOrderPaid.gif)
 
@@ -148,9 +148,9 @@ Depois do processamento, a order pode ser consultada novamente. Nesse ponto, a o
 
 ### Ticket service
 
-| Metodo | Rota | Descricao |
+| Método | Rota | Descrição |
 | --- | --- | --- |
-| `GET` | `/health` | Verifica se o servico esta online |
+| `GET` | `/health` | Verifica se o serviço está online |
 | `POST` | `/orders` | Cria uma order e reserva tickets |
 | `GET` | `/orders/:orderId` | Consulta uma order com seus tickets |
 | `POST` | `/events` | Cadastra um evento |
@@ -158,7 +158,7 @@ Depois do processamento, a order pode ser consultada novamente. Nesse ponto, a o
 | `PUT` | `/events/:eventId` | Atualiza um evento |
 | `DELETE` | `/events/:eventId` | Remove um evento |
 
-Exemplo de criacao de evento:
+Exemplo de criação de evento:
 
 ```json
 {
@@ -173,7 +173,7 @@ Exemplo de criacao de evento:
 }
 ```
 
-Exemplo de criacao de order:
+Exemplo de criação de order:
 
 ```json
 {
@@ -204,7 +204,7 @@ price_in_cents
 total_price_in_cents
 ```
 
-Isso evita problemas de precisao com valores monetarios.
+Isso evita problemas de precisão com valores monetários.
 
 ---
 
@@ -216,7 +216,7 @@ Subir infraestrutura:
 docker compose up -d
 ```
 
-O PostgreSQL executa automaticamente o `create.sql` na primeira inicializacao do volume.
+O PostgreSQL executa automaticamente o `create.sql` na primeira inicialização do volume.
 
 Se precisar recriar o banco do zero:
 
@@ -235,9 +235,9 @@ password: admin
 
 ---
 
-## Variaveis de ambiente
+## Variáveis de ambiente
 
-Cada modulo possui `.env.example`.
+Cada módulo possui `.env.example`.
 
 Exemplo:
 
@@ -256,7 +256,7 @@ AMQP_URL=amqp://admin:admin@localhost:5672
 
 ---
 
-## Rodando os servicos
+## Rodando os serviços
 
 Ticket:
 
@@ -278,13 +278,13 @@ npm run dev
 
 ## Scripts
 
-Os dois modulos possuem os mesmos scripts principais.
+Os dois módulos possuem os mesmos scripts principais.
 
-| Comando | Descricao |
+| Comando | Descrição |
 | --- | --- |
-| `npm run dev` | Inicia o servico em modo desenvolvimento |
+| `npm run dev` | Inicia o serviço em modo desenvolvimento |
 | `npm run build` | Compila o projeto |
-| `npm start` | Executa a versao compilada |
+| `npm start` | Executa a versão compilada |
 | `npm run typecheck` | Executa a checagem de tipos |
 | `npm test` | Executa os testes com Vitest |
 
@@ -292,19 +292,19 @@ Os dois modulos possuem os mesmos scripts principais.
 
 ## Testes
 
-Cada modulo possui testes unitarios, e2e e de integracao.
+Cada módulo possui testes unitários, e2e e de integração.
 
 ```bash
 npm test -- --run
 ```
 
-Evidencias:
+Evidências:
 
-Modulo `ticket`:
+Módulo `ticket`:
 
 ![Ticket Tests](./img/ticket/testsTicket.jpg)
 
-Modulo `payment`:
+Módulo `payment`:
 
 ![Payment Tests](./img/ticket/testsPayments.jpg)
 
@@ -359,11 +359,11 @@ payment/
 ## Pontos de projeto
 
 - Repositories trabalham com PostgreSQL direto via `pg`.
-- Entidades concentram estado e transicoes simples.
-- Use cases orquestram regras de negocio.
+- Entidades concentram estado e transições simples.
+- Use cases orquestram regras de negócio.
 - Subscribers recebem eventos do RabbitMQ.
-- O pagamento e processado de forma assíncrona.
-- O estoque considera tickets `reserved` e `approved` para evitar vender alem da capacidade.
+- O pagamento é processado de forma assíncrona.
+- O estoque considera tickets `reserved` e `approved` para evitar vender além da capacidade.
 
 ---
 

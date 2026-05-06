@@ -37,7 +37,7 @@ Para uma visualização mais detalhada, acesse diretamente o projeto desejado:
 
 * [Bank Transaction Service](./backend/microservices/bank-transaction-service/) - em atualização
 * [Inventory Management Service](./backend/microservices/inventory-management-service/) - em atualização
-* [Serviço de Compra de Ingressos](./backend/microservices/ticket-purchase-service/)
+* [Compra de Ingressos](./backend/microservices/ticket-purchase-service/)
 
 ### 📡 WebSockets / Socket.IO
 

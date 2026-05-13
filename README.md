@@ -36,7 +36,7 @@ Para uma visualização mais detalhada, acesse diretamente o projeto desejado:
 
 ### 🧠 MCP Servers
 
-* [MCP Server - Doc. Inteligente](./backend/mcp-servers/mcp-server-repo-context/)
+* [MCP Server - Documentação Inteligente](./backend/mcp-servers/mcp-server-repo-context/)
 
 ### 🧩 Microsserviços
 

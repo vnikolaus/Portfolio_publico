@@ -13,7 +13,7 @@ Veja por sessão:
 * [⚙️ Backend](./backend/)
 * [🔌 APIs](./backend/apis/)
 * [🛠️ Ferramentas](./backend/tools/)
-* [MCP Servers](./backend/mcp-servers/)
+* [🧠 MCP Servers](./backend/mcp-servers/)
 * [🧩 Microsserviços](./backend/microservices/)
 * [📡 WebSockets](./backend/websockets/)
 * [💻 Projetos Fullstack](./fullstack/)
@@ -34,7 +34,7 @@ Para uma visualização mais detalhada, acesse diretamente o projeto desejado:
 * [Criptografia](./backend/tools/encryption-service/)
 * [Encurtador de Links](./backend/tools/link-shortener/)
 
-### MCP Servers
+### 🧠 MCP Servers
 
 * [MCP Server - Doc. Inteligente](./backend/mcp-servers/mcp-server-repo-context/)
 

@@ -18,6 +18,9 @@ coverage/
 .env.local
 .env.*.local
 
+# KlauzDB runtime data
+_collections/.parking.json
+
 # Logs
 logs
 *.log
